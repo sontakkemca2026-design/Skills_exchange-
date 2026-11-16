@@ -1,0 +1,995 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Explore Skills | Campus Skill Exchange</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --bg: #05091a;
+    --panel: #101936;
+    --border: #343c79;
+    --purple: #914cff;
+    --blue: #248dff;
+    --text: #ffffff;
+    --muted: #b8c3e5;
+}
+
+body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background:
+        radial-gradient(ellipse at 15% 25%, rgba(100, 40, 220, .17), transparent 35%),
+        radial-gradient(ellipse at 90% 65%, rgba(0, 110, 255, .14), transparent 35%),
+        var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+}
+
+/* NAVBAR */
+
+.navbar {
+    min-height: 76px;
+    padding: 15px 5%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    flex-wrap: wrap;
+    background: rgba(10, 16, 39, .96);
+    border-bottom: 1px solid #35366f;
+    position: relative;
+    z-index: 5;
+}
+
+.logo {
+    font-size: 25px;
+    font-weight: 800;
+    background: linear-gradient(90deg, #a56bff, #42b9ff);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+
+.nav-links {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.nav-links a {
+    color: #e5eaff;
+    text-decoration: none;
+    padding: 11px 17px;
+    border-radius: 10px;
+    font-size: 15px;
+    transition: .3s;
+}
+
+.nav-links a:hover,
+.nav-links a.active {
+    background: linear-gradient(110deg, #783bfa, #286fe9);
+    color: white;
+    box-shadow: 0 0 18px rgba(125, 70, 255, .35);
+}
+
+/* HERO */
+
+.hero {
+    width: 94%;
+    max-width: 1550px;
+    min-height: 225px;
+    margin: 25px auto 30px;
+    padding: 45px 25px;
+    border-radius: 23px;
+    border: 1px solid #8653ff;
+    background:
+        radial-gradient(circle at 15% 50%, rgba(175, 80, 255, .35), transparent 30%),
+        radial-gradient(circle at 85% 30%, rgba(0, 150, 255, .35), transparent 35%),
+        linear-gradient(115deg, #28106a, #152e91, #073c77);
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 0 35px rgba(110, 50, 255, .25);
+}
+
+.hero::before,
+.hero::after {
+    content: "✦";
+    position: absolute;
+    font-size: 75px;
+    color: rgba(255,255,255,.12);
+}
+
+.hero::before {
+    left: 7%;
+    top: 25px;
+}
+
+.hero::after {
+    right: 8%;
+    bottom: 15px;
+}
+
+.hero h1 {
+    position: relative;
+    font-size: clamp(30px, 4vw, 46px);
+    margin-bottom: 15px;
+}
+
+.hero h1 span {
+    color: #d7b9ff;
+}
+
+.hero p {
+    position: relative;
+    color: #e1eaff;
+    font-size: 18px;
+    line-height: 1.7;
+}
+
+/* SEARCH */
+
+.search-section {
+    width: 90%;
+    max-width: 1000px;
+    margin: 35px auto 30px;
+}
+
+.search-heading {
+    text-align: center;
+    margin-bottom: 22px;
+}
+
+.search-heading h2 {
+    font-size: 27px;
+    margin-bottom: 8px;
+    color: #e9ddff;
+}
+
+.search-heading p {
+    color: var(--muted);
+}
+
+.filters {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}
+
+.filters input,
+.filters select {
+    height: 57px;
+    border-radius: 15px;
+    border: 1px solid #55549c;
+    background: #111a37;
+    color: white;
+    padding: 0 20px;
+    font-size: 16px;
+    outline: none;
+}
+
+.filters input {
+    width: 65%;
+}
+
+.filters select {
+    width: 230px;
+    cursor: pointer;
+}
+
+.filters input:focus,
+.filters select:focus {
+    border-color: #a66aff;
+    box-shadow: 0 0 15px rgba(145, 76, 255, .3);
+}
+
+.filters input::placeholder {
+    color: #9ba8cb;
+}
+
+.filters select option {
+    background: #111a37;
+    color: white;
+}
+
+/* SECTION TITLE */
+
+.section-title {
+    width: 90%;
+    margin: 35px auto 25px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    text-align: center;
+}
+
+.section-title span {
+    height: 2px;
+    width: 100px;
+    background: linear-gradient(90deg, transparent, #9c4fff);
+}
+
+.section-title span:last-child {
+    background: linear-gradient(90deg, #329eff, transparent);
+}
+
+.section-title h2 {
+    font-size: 27px;
+    color: #e6d5ff;
+}
+
+/* MESSAGES */
+
+.message {
+    display: none;
+    width: 90%;
+    max-width: 1100px;
+    margin: 20px auto;
+    padding: 15px;
+    border-radius: 12px;
+    line-height: 1.5;
+}
+
+.message.error {
+    display: block;
+    color: #ffb5b5;
+    background: #3b1825;
+    border: 1px solid #8e354b;
+}
+
+.message.success {
+    display: block;
+    color: #a9ffd0;
+    background: #123326;
+    border: 1px solid #28734f;
+}
+
+.message.info {
+    display: block;
+    color: #c5d8ff;
+    background: #17294b;
+    border: 1px solid #34558b;
+}
+
+/* SKILL CARDS */
+
+.skills-container {
+    width: 94%;
+    max-width: 1550px;
+    margin: 25px auto 55px;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 22px;
+}
+
+.skill-card {
+    position: relative;
+    overflow: hidden;
+    padding: 24px;
+    border-radius: 21px;
+    border: 1px solid #49469b;
+    background:
+        radial-gradient(circle at 100% 100%, rgba(27, 107, 220, .18), transparent 45%),
+        linear-gradient(145deg, #151b40, #101a35);
+    box-shadow: 0 10px 25px rgba(0,0,0,.2);
+    transition: .35s;
+}
+
+.skill-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: linear-gradient(90deg, #9d4fff, #258cff);
+}
+
+.skill-card:hover {
+    transform: translateY(-8px);
+    border-color: #a45bff;
+    box-shadow: 0 12px 35px rgba(113, 63, 255, .25);
+}
+
+.card-top {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 17px;
+}
+
+/* STUDENT PROFILE PHOTO */
+
+.skill-icon {
+    width: 58px;
+    height: 58px;
+    min-width: 58px;
+    border-radius: 50%;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(140deg, #5833bd, #1765b9);
+    border: 2px solid #a56bff;
+    box-shadow: 0 0 20px rgba(105, 76, 255, .3);
+}
+
+.skill-icon img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.photo-placeholder {
+    font-size: 27px;
+}
+
+.skill-card h3 {
+    font-size: 21px;
+    color: #e3d4ff;
+    overflow-wrap: anywhere;
+}
+
+.tags {
+    display: flex;
+    gap: 9px;
+    flex-wrap: wrap;
+    margin-bottom: 19px;
+}
+
+.tag {
+    padding: 6px 13px;
+    border-radius: 20px;
+    font-size: 13px;
+    color: #e5d6ff;
+    background: rgba(128, 67, 255, .22);
+    border: 1px solid #7444c5;
+}
+
+.tag.level {
+    background: rgba(0, 175, 255, .13);
+    color: #8de4ff;
+    border-color: #2478a9;
+}
+
+.skill-detail {
+    color: #d2dcf4;
+    margin: 11px 0;
+    line-height: 1.5;
+    overflow-wrap: anywhere;
+    font-size: 15px;
+}
+
+.skill-detail strong {
+    color: white;
+}
+
+.request-button {
+    width: 100%;
+    margin-top: 16px;
+    padding: 14px;
+    border: none;
+    border-radius: 13px;
+    background: linear-gradient(105deg, #943eff, #4545ef);
+    color: white;
+    font-size: 15px;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 5px 18px rgba(112, 65, 255, .3);
+    transition: .3s;
+}
+
+.request-button:hover {
+    background: linear-gradient(105deg, #ae61ff, #277eff);
+    transform: scale(1.02);
+}
+
+/* REQUEST FORM */
+
+.request-form {
+    display: none;
+    margin-top: 20px;
+    padding-top: 18px;
+    border-top: 1px solid #42477e;
+}
+
+.request-form h4 {
+    font-size: 18px;
+    color: #e7d6ff;
+    margin-bottom: 12px;
+}
+
+.request-form textarea {
+    width: 100%;
+    min-height: 105px;
+    resize: vertical;
+    padding: 13px;
+    border-radius: 11px;
+    border: 1px solid #454c85;
+    background: #080f25;
+    color: white;
+    font-family: Arial, sans-serif;
+    font-size: 15px;
+    outline: none;
+}
+
+.request-form textarea:focus {
+    border-color: #a45aff;
+}
+
+.request-form textarea::placeholder {
+    color: #8794b8;
+}
+
+.send-button {
+    width: 100%;
+    margin-top: 12px;
+    padding: 13px;
+    border: none;
+    border-radius: 10px;
+    background: linear-gradient(100deg, #8e42f6, #276fe9);
+    color: white;
+    font-size: 15px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.send-button:disabled {
+    opacity: .6;
+    cursor: not-allowed;
+}
+
+.cancel-button {
+    width: 100%;
+    margin-top: 8px;
+    padding: 11px;
+    background: transparent;
+    border: 1px solid #454c85;
+    color: #bdc8e5;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.cancel-button:hover {
+    background: #22294c;
+}
+
+.card-message {
+    display: none;
+    margin-top: 12px;
+    padding: 11px;
+    border-radius: 9px;
+    font-size: 14px;
+    line-height: 1.5;
+    overflow-wrap: anywhere;
+}
+
+.card-message.error {
+    display: block;
+    background: #3b1825;
+    color: #ffb5b5;
+}
+
+.card-message.success {
+    display: block;
+    background: #123326;
+    color: #a9ffd0;
+}
+
+.empty-message {
+    grid-column: 1 / -1;
+    text-align: center;
+    color: #c2cce8;
+    background: #111a37;
+    border: 1px solid #49469b;
+    padding: 40px 20px;
+    border-radius: 17px;
+    font-size: 17px;
+    line-height: 1.7;
+}
+
+/* FOOTER */
+
+footer {
+    margin-top: 45px;
+    padding: 23px;
+    text-align: center;
+    color: #c1cce9;
+    border-top: 1px solid #51409a;
+    background: linear-gradient(90deg, #25105d, #101936, #073a78);
+}
+
+/* RESPONSIVE */
+
+@media (max-width: 1000px) {
+    .skills-container {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 650px) {
+    .navbar {
+        justify-content: center;
+        text-align: center;
+    }
+
+    .nav-links {
+        justify-content: center;
+        gap: 5px;
+    }
+
+    .nav-links a {
+        padding: 9px 11px;
+        font-size: 13px;
+    }
+
+    .logo {
+        font-size: 23px;
+    }
+
+    .hero {
+        width: 92%;
+        padding: 40px 18px;
+    }
+
+    .hero h1 {
+        font-size: 30px;
+    }
+
+    .hero p {
+        font-size: 15px;
+    }
+
+    .search-section {
+        width: 92%;
+    }
+
+    .filters {
+        flex-direction: column;
+    }
+
+    .filters input,
+    .filters select {
+        width: 100%;
+    }
+
+    .skills-container {
+        width: 92%;
+        grid-template-columns: 1fr;
+    }
+
+    .section-title h2 {
+        font-size: 22px;
+    }
+
+    .section-title span {
+        width: 35px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header class="navbar">
+    <div class="logo">🎓 CAMPUS SKILL EXCHANGE</div>
+
+    <nav class="nav-links">
+        <a href="student_dash.html">⌂ Home</a>
+        <a href="add-skill.html">＋ Add Skill</a>
+        <a href="explore.html" class="active">✦ Explore Skills</a>
+        <a href="requests.html">♧ My Requests</a>
+    </nav>
+</header>
+
+<section class="hero">
+    <h1>Discover New <span>Skills ✨</span></h1>
+    <p>
+        Find talented students, learn something new,
+        <br>
+        share knowledge and grow together!
+    </p>
+</section>
+
+<section class="search-section">
+    <div class="search-heading">
+        <h2>Find Your Learning Partner</h2>
+        <p>Discover amazing skills shared by students on your campus.</p>
+    </div>
+
+    <div class="filters">
+        <input type="text" id="searchInput"
+               placeholder="🔍 Search skills or categories...">
+
+        <select id="categoryFilter">
+            <option value="">All Categories</option>
+        </select>
+    </div>
+</section>
+
+<div id="pageMessage" class="message"></div>
+
+<div class="section-title">
+    <span></span>
+    <h2>Explore Skills ✨</h2>
+    <span></span>
+</div>
+
+<section class="skills-container" id="skillsContainer">
+    <div class="empty-message">Loading available skills...</div>
+</section>
+
+<footer>
+    © 2026 Campus Skill Exchange System | Learn • Share • Grow 💜
+</footer>
+
+<script>
+const userId =
+    sessionStorage.getItem("studentId") ||
+    sessionStorage.getItem("userId") ||
+    localStorage.getItem("studentId") ||
+    localStorage.getItem("userId");
+
+const skillsContainer = document.getElementById("skillsContainer");
+const pageMessage = document.getElementById("pageMessage");
+const searchInput = document.getElementById("searchInput");
+const categoryFilter = document.getElementById("categoryFilter");
+
+let allSkills = [];
+
+function showPageMessage(message, type) {
+    pageMessage.textContent = message;
+    pageMessage.className = "message " + type;
+}
+
+function createElement(tag, className, text) {
+    const element = document.createElement(tag);
+
+    if (className) element.className = className;
+    if (text !== undefined) element.textContent = text;
+
+    return element;
+}
+
+// PROFILE PHOTO
+function createProfilePhoto(skill) {
+    const photoBox = createElement("div", "skill-icon");
+    const photoValue = skill.profile_photo || "";
+
+    if (
+        photoValue &&
+        (photoValue.startsWith("data:image/") ||
+         photoValue.startsWith("http://") ||
+         photoValue.startsWith("https://") ||
+         photoValue.startsWith("/"))
+    ) {
+        const img = document.createElement("img");
+        img.src = photoValue;
+        img.alt = (skill.owner_name || "Student") + " profile photo";
+
+        img.onerror = function() {
+            photoBox.innerHTML = "";
+            photoBox.appendChild(
+                createElement("span", "photo-placeholder", "👤")
+            );
+        };
+
+        photoBox.appendChild(img);
+    } else {
+        photoBox.appendChild(
+            createElement("span", "photo-placeholder", "👤")
+        );
+    }
+
+    return photoBox;
+}
+
+// LOAD SKILLS
+async function loadSkills() {
+    if (!userId) {
+        skillsContainer.innerHTML = "";
+        skillsContainer.appendChild(
+            createElement("div", "empty-message",
+                "Please log in first to explore skills.")
+        );
+
+        showPageMessage(
+            "Your student login information was not found. Please log in again.",
+            "error"
+        );
+        return;
+    }
+
+    try {
+        const response = await fetch(
+            "/api/skills?userId=" + encodeURIComponent(userId)
+        );
+
+        const data = await response.json();
+
+        if (!response.ok || !data.success) {
+            throw new Error(data.message || "Could not load skills.");
+        }
+
+        allSkills = data.skills || [];
+        loadCategories();
+        displaySkills(allSkills);
+
+        pageMessage.className = "message";
+
+    } catch (error) {
+        skillsContainer.innerHTML = "";
+        skillsContainer.appendChild(
+            createElement("div", "empty-message", error.message)
+        );
+
+        showPageMessage(
+            "Unable to load skills. Please check that the C++ server and database are running.",
+            "error"
+        );
+    }
+}
+
+// CATEGORIES
+function loadCategories() {
+    const categories = [
+        ...new Set(
+            allSkills
+                .map(skill => skill.category)
+                .filter(category => category)
+        )
+    ];
+
+    categoryFilter.innerHTML =
+        '<option value="">All Categories</option>';
+
+    categories.forEach(category => {
+        const option = document.createElement("option");
+        option.value = category;
+        option.textContent = category;
+        categoryFilter.appendChild(option);
+    });
+}
+
+// DISPLAY SKILLS
+function displaySkills(skills) {
+    skillsContainer.innerHTML = "";
+
+    if (skills.length === 0) {
+        skillsContainer.appendChild(
+            createElement("div", "empty-message",
+                "No skills found. Try another search or check again later.")
+        );
+        return;
+    }
+
+    skills.forEach(skill => {
+        const card = createElement("div", "skill-card");
+
+        // CARD TOP WITH STUDENT PHOTO
+        const cardTop = createElement("div", "card-top");
+        const photo = createProfilePhoto(skill);
+
+        const heading = createElement(
+            "h3", "", skill.skill_name || "Untitled Skill"
+        );
+
+        cardTop.appendChild(photo);
+        cardTop.appendChild(heading);
+
+        // TAGS
+        const tags = createElement("div", "tags");
+
+        tags.appendChild(
+            createElement("span", "tag", skill.category || "General")
+        );
+
+        tags.appendChild(
+            createElement("span", "tag level",
+                skill.skill_level || "Not specified")
+        );
+
+        // OWNER
+        const owner = createElement("p", "skill-detail");
+        owner.appendChild(createElement("strong", "", "Shared by: "));
+        owner.appendChild(
+            document.createTextNode(skill.owner_name || "Student")
+        );
+
+        // DESCRIPTION
+        const description = createElement("p", "skill-detail");
+        description.appendChild(
+            createElement("strong", "", "Description: ")
+        );
+        description.appendChild(
+            document.createTextNode(skill.description || "No description")
+        );
+
+        // EXPERIENCE
+        const experience = createElement("p", "skill-detail");
+        experience.appendChild(
+            createElement("strong", "", "Experience: ")
+        );
+        experience.appendChild(
+            document.createTextNode(skill.experience || "Not specified")
+        );
+
+        // AVAILABILITY
+        const availability = createElement("p", "skill-detail");
+        availability.appendChild(
+            createElement("strong", "", "Availability: ")
+        );
+        availability.appendChild(
+            document.createTextNode(skill.availability || "Not specified")
+        );
+
+        // REQUEST BUTTON
+        const requestButton = createElement(
+            "button", "request-button", "✉ Request This Skill →"
+        );
+        requestButton.type = "button";
+
+        // REQUEST FORM
+        const requestForm = createElement("div", "request-form");
+
+        const formHeading = createElement(
+            "h4", "", "💬 Send Learning Request"
+        );
+
+        const textarea = document.createElement("textarea");
+        textarea.placeholder =
+            "Write your question or explain what you want to learn...";
+        textarea.maxLength = 3000;
+
+        const sendButton = createElement(
+            "button", "send-button", "Send Request →"
+        );
+        sendButton.type = "button";
+
+        const cancelButton = createElement(
+            "button", "cancel-button", "Cancel"
+        );
+        cancelButton.type = "button";
+
+        const cardMessage = createElement("div", "card-message");
+
+        requestButton.addEventListener("click", () => {
+            requestForm.style.display =
+                requestForm.style.display === "block" ? "none" : "block";
+
+            cardMessage.textContent = "";
+            cardMessage.className = "card-message";
+        });
+
+        cancelButton.addEventListener("click", () => {
+            requestForm.style.display = "none";
+            textarea.value = "";
+            cardMessage.textContent = "";
+            cardMessage.className = "card-message";
+        });
+
+        // SEND REQUEST
+        sendButton.addEventListener("click", async () => {
+            const question = textarea.value.trim();
+
+            cardMessage.textContent = "";
+            cardMessage.className = "card-message";
+
+            if (!userId) {
+                cardMessage.textContent =
+                    "Please log in again before sending a request.";
+                cardMessage.className = "card-message error";
+                return;
+            }
+
+            if (!question) {
+                cardMessage.textContent =
+                    "Please write your question before sending.";
+                cardMessage.className = "card-message error";
+                textarea.focus();
+                return;
+            }
+
+            sendButton.disabled = true;
+            sendButton.textContent = "Sending...";
+
+            try {
+                const formData = new URLSearchParams();
+                formData.append("skillId", skill.skill_id);
+                formData.append("requesterId", userId);
+                formData.append("question", question);
+
+                const response = await fetch("/api/requests", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type":
+                            "application/x-www-form-urlencoded"
+                    },
+                    body: formData.toString()
+                });
+
+                const data = await response.json();
+
+                if (!response.ok || !data.success) {
+                    throw new Error(
+                        data.message || "Could not send your request."
+                    );
+                }
+
+                cardMessage.textContent =
+                    data.message ||
+                    "Your learning request was sent successfully!";
+
+                cardMessage.className = "card-message success";
+                textarea.value = "";
+
+            } catch (error) {
+                cardMessage.textContent =
+                    error.message || "Unable to send your request.";
+                cardMessage.className = "card-message error";
+
+            } finally {
+                sendButton.disabled = false;
+                sendButton.textContent = "Send Request →";
+            }
+        });
+
+        requestForm.appendChild(formHeading);
+        requestForm.appendChild(textarea);
+        requestForm.appendChild(sendButton);
+        requestForm.appendChild(cancelButton);
+        requestForm.appendChild(cardMessage);
+
+        card.appendChild(cardTop);
+        card.appendChild(tags);
+        card.appendChild(owner);
+        card.appendChild(description);
+        card.appendChild(experience);
+        card.appendChild(availability);
+        card.appendChild(requestButton);
+        card.appendChild(requestForm);
+
+        skillsContainer.appendChild(card);
+    });
+}
+
+// SEARCH AND FILTER
+function filterSkills() {
+    const searchText = searchInput.value.toLowerCase().trim();
+    const selectedCategory = categoryFilter.value.toLowerCase();
+
+    const filteredSkills = allSkills.filter(skill => {
+        const matchesSearch =
+            (skill.skill_name || "").toLowerCase().includes(searchText) ||
+            (skill.category || "").toLowerCase().includes(searchText) ||
+            (skill.description || "").toLowerCase().includes(searchText) ||
+            (skill.owner_name || "").toLowerCase().includes(searchText);
+
+        const matchesCategory =
+            !selectedCategory ||
+            (skill.category || "").toLowerCase() === selectedCategory;
+
+        return matchesSearch && matchesCategory;
+    });
+
+    displaySkills(filteredSkills);
+}
+
+searchInput.addEventListener("input", filterSkills);
+categoryFilter.addEventListener("change", filterSkills);
+
+loadSkills();
+</script>
+
+</body>
+</html>

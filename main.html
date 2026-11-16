@@ -1,0 +1,832 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Campus Skill Exchange</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+:root {
+  --bg: #070b18;
+  --panel: #10172b;
+  --border: #202b49;
+  --text: #f6f7ff;
+  --muted: #a5afc8;
+  --purple: #8b5cf6;
+  --blue: #32b7ff;
+  --pink: #ed65d9;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  color: var(--text);
+  background:
+    radial-gradient(ellipse at 75% 10%, #172052 0%, transparent 34%),
+    radial-gradient(ellipse at 5% 40%, #19103c 0%, transparent 28%),
+    var(--bg);
+  line-height: 1.6;
+}
+
+a { text-decoration: none; color: inherit; }
+button { font: inherit; cursor: pointer; }
+
+.container {
+  width: min(1160px, 92%);
+  margin: auto;
+}
+
+nav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(7, 11, 24, .88);
+  backdrop-filter: blur(18px);
+  border-bottom: 1px solid rgba(140, 160, 220, .17);
+}
+
+.nav-inner {
+  min-height: 78px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 22px;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 19px;
+  line-height: 1.15;
+  font-weight: 800;
+  flex-shrink: 0;
+}
+
+.logo-icon {
+  width: 43px;
+  height: 43px;
+  display: grid;
+  place-items: center;
+  border-radius: 14px;
+  font-size: 24px;
+  background: linear-gradient(135deg, #5635ee, #168eea);
+  box-shadow: 0 0 25px #653bfa55;
+}
+
+.logo span span {
+  display: block;
+  color: #9b8cff;
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 25px;
+}
+
+.nav-links a {
+  color: #c7cee2;
+  font-size: 13px;
+  transition: .25s;
+}
+
+.nav-links a:hover { color: white; }
+
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border-radius: 13px;
+  padding: 11px 18px;
+  border: 1px solid transparent;
+  font-size: 13px;
+  font-weight: 600;
+  transition: transform .25s, box-shadow .25s, border-color .25s;
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 26px #754cff35;
+}
+
+.btn-outline {
+  border-color: #6355b8;
+  background: #10162a;
+}
+
+.btn-outline:hover { border-color: #ad8cff; }
+
+.btn-primary {
+  color: white;
+  background: linear-gradient(110deg, #8146f6, #4569ff 65%, #26bce9);
+}
+
+.btn-pink {
+  border-color: #a954c5;
+  background: #151026;
+}
+
+.menu-toggle {
+  display: none;
+  border: 1px solid var(--border);
+  background: var(--panel);
+  color: white;
+  border-radius: 10px;
+  padding: 8px 12px;
+  font-size: 22px;
+}
+
+.hero {
+  padding: 76px 0 64px;
+  min-height: 540px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  gap: 38px;
+}
+
+.eyebrow {
+  display: inline-block;
+  padding: 7px 13px;
+  border: 1px solid #4a3b7c;
+  border-radius: 30px;
+  background: #15132d;
+  color: #c6b6ff;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  margin-bottom: 20px;
+}
+
+.hero h1 {
+  font-size: clamp(42px, 5vw, 67px);
+  line-height: 1.08;
+  letter-spacing: -2.5px;
+  margin-bottom: 22px;
+}
+
+.gradient-text {
+  background: linear-gradient(95deg, #bd75ff, #6587ff 55%, #4bd8ee);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.hero p {
+  max-width: 490px;
+  color: var(--muted);
+  font-size: 16px;
+  margin-bottom: 27px;
+}
+
+.hero-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.hero-buttons .btn {
+  padding: 14px 22px;
+  border-radius: 15px;
+}
+
+.hero-visual {
+  position: relative;
+  min-height: 360px;
+  display: grid;
+  place-items: center;
+}
+
+.orb {
+  width: min(330px, 80%);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  position: absolute;
+  background: radial-gradient(circle, #6342d755, #1e5baf18 50%, transparent 72%);
+  filter: blur(7px);
+}
+
+.visual-card {
+  position: relative;
+  z-index: 1;
+  width: min(390px, 100%);
+  padding: 25px;
+  border: 1px solid #34416d;
+  border-radius: 25px;
+  background: linear-gradient(145deg, #18213d, #0b1020 80%);
+  box-shadow: 0 25px 90px #0007, 0 0 45px #7351ff20;
+  transform: rotate(-2deg);
+}
+
+.visual-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 25px;
+}
+
+.status {
+  color: #6cf3c4;
+  background: #12372f;
+  padding: 5px 10px;
+  border-radius: 20px;
+  font-size: 11px;
+}
+
+.profile-row {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  margin: 18px 0;
+}
+
+.avatar {
+  width: 48px;
+  height: 48px;
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  border-radius: 15px;
+  font-size: 23px;
+  background: linear-gradient(135deg, #703cf3, #168fce);
+}
+
+.profile-row small, .skill small { color: var(--muted); }
+
+.skill-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 20px;
+}
+
+.skill-tags span {
+  border: 1px solid #353f69;
+  color: #d4c7ff;
+  background: #191d38;
+  padding: 6px 10px;
+  border-radius: 9px;
+  font-size: 11px;
+}
+
+.floating-tag {
+  position: absolute;
+  z-index: 2;
+  padding: 12px 15px;
+  background: #121a30;
+  border: 1px solid #50418d;
+  border-radius: 14px;
+  box-shadow: 0 10px 35px #0005;
+  font-size: 12px;
+}
+
+.tag-one { top: 20px; right: -3px; }
+.tag-two { bottom: 25px; left: -5px; }
+
+.floating-tag strong { display: block; }
+.floating-tag small { color: var(--muted); }
+
+.stats {
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  background: #0b1121cc;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  padding: 25px 0;
+  gap: 20px;
+}
+
+.stat {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 13px;
+}
+
+.stat-icon {
+  width: 46px;
+  height: 46px;
+  border-radius: 15px;
+  display: grid;
+  place-items: center;
+  font-size: 22px;
+  background: #20163d;
+  border: 1px solid #553e95;
+}
+
+.stat p { color: var(--muted); font-size: 12px; }
+
+section.content-section { padding: 85px 0; }
+
+.section-label {
+  color: #8f9dff;
+  letter-spacing: 2.5px;
+  font-size: 11px;
+  font-weight: 700;
+  margin-bottom: 12px;
+}
+
+.section-heading {
+  font-size: clamp(28px, 4vw, 40px);
+  line-height: 1.2;
+  letter-spacing: -1px;
+  margin-bottom: 15px;
+}
+
+.section-description {
+  color: var(--muted);
+  max-width: 600px;
+  font-size: 14px;
+}
+
+.skills-layout {
+  display: grid;
+  grid-template-columns: .8fr 1.5fr;
+  gap: 45px;
+  align-items: start;
+}
+
+.skills-intro { padding-top: 15px; }
+.skills-intro .btn { margin-top: 24px; }
+
+.skill-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 15px;
+}
+
+.skill-card {
+  padding: 21px 17px;
+  min-height: 175px;
+  border-radius: 19px;
+  border: 1px solid var(--border);
+  background: linear-gradient(145deg, #121a30, #0b1120);
+  transition: .25s;
+}
+
+.skill-card:hover {
+  transform: translateY(-5px);
+  border-color: #755be6;
+  box-shadow: 0 12px 35px #5337aa20;
+}
+
+.skill-icon {
+  width: 45px;
+  height: 45px;
+  display: grid;
+  place-items: center;
+  font-size: 23px;
+  border-radius: 14px;
+  background: linear-gradient(135deg, #33216b, #152c59);
+  margin-bottom: 14px;
+}
+
+.skill-card h3 { font-size: 15px; margin-bottom: 6px; }
+.skill-card p { color: var(--muted); font-size: 12px; }
+
+.steps-section {
+  border-top: 1px solid #20294a;
+  border-bottom: 1px solid #20294a;
+  background: linear-gradient(110deg, #0b1021, #101333, #0a1121);
+}
+
+.steps-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 25px;
+  margin-top: 38px;
+}
+
+.step-card {
+  padding: 27px;
+  border: 1px solid #283454;
+  border-radius: 20px;
+  background: #0d1427;
+}
+
+.step-number {
+  font-size: 13px;
+  color: #9d8aff;
+  font-weight: 800;
+  letter-spacing: 2px;
+}
+
+.step-card .big-icon { font-size: 32px; margin: 15px 0; }
+.step-card h3 { margin-bottom: 8px; font-size: 18px; }
+.step-card p { color: var(--muted); font-size: 13px; }
+
+.about-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  gap: 50px;
+}
+
+.about-art {
+  min-height: 310px;
+  display: grid;
+  place-items: center;
+  border-radius: 25px;
+  border: 1px solid #43366f;
+  background:
+    radial-gradient(circle at 50% 35%, #6742c966, transparent 40%),
+    linear-gradient(140deg, #121c37, #17102c);
+  position: relative;
+  overflow: hidden;
+}
+
+.about-art .people { font-size: 90px; filter: drop-shadow(0 12px 25px #0007); }
+
+.about-art .art-caption {
+  position: absolute;
+  bottom: 24px;
+  font-size: 20px;
+  font-weight: 700;
+  color: #d8d1ff;
+}
+
+.about-points {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 17px;
+  margin-top: 25px;
+}
+
+.about-point {
+  padding: 13px;
+  background: #10172a;
+  border: 1px solid #242f4d;
+  border-radius: 12px;
+  font-size: 12px;
+}
+
+.cta { padding: 0 0 65px; }
+
+.cta-panel {
+  padding: 32px;
+  border-radius: 22px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 22px;
+  background: linear-gradient(105deg, #4835bb, #285fcb 52%, #a23fc4);
+  box-shadow: 0 20px 60px #4835bb30;
+}
+
+.cta-panel p { color: #e0e4ff; font-size: 13px; }
+
+footer {
+  border-top: 1px solid var(--border);
+  background: #080d19;
+}
+
+.footer-main {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 22px;
+  padding: 28px 0;
+}
+
+.footer-links { display: flex; gap: 20px; flex-wrap: wrap; }
+.footer-links a, .footer-bottom { color: var(--muted); font-size: 12px; }
+.footer-links a:hover { color: white; }
+
+.footer-bottom {
+  border-top: 1px solid #1b2540;
+  padding: 17px 0;
+  display: flex;
+  justify-content: space-between;
+  gap: 15px;
+  flex-wrap: wrap;
+}
+
+@media (max-width: 980px) {
+  .nav-links { gap: 13px; }
+  .nav-actions { gap: 6px; }
+  .nav-actions .btn { padding: 9px 11px; }
+  .skills-layout { grid-template-columns: 1fr; }
+  .hero { gap: 20px; }
+}
+
+@media (max-width: 760px) {
+  .nav-inner { min-height: 70px; }
+  .menu-toggle { display: block; }
+  .nav-links, .nav-actions {
+    display: none;
+    width: 100%;
+  }
+  .nav-inner.open {
+    flex-wrap: wrap;
+    padding: 13px 0;
+  }
+  .nav-inner.open .nav-links {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+  }
+  .nav-inner.open .nav-links a { padding: 11px 4px; }
+  .nav-inner.open .nav-actions {
+    display: flex;
+    flex-wrap: wrap;
+    padding-bottom: 8px;
+  }
+  .hero { grid-template-columns: 1fr; padding-top: 50px; }
+  .hero-visual { min-height: 330px; }
+  .stats-grid { grid-template-columns: 1fr; }
+  .stat { justify-content: flex-start; }
+  .skill-grid { grid-template-columns: repeat(2, 1fr); }
+  .steps-grid { grid-template-columns: 1fr; }
+  .about-grid { grid-template-columns: 1fr; gap: 30px; }
+  .cta-panel { align-items: flex-start; flex-direction: column; }
+}
+
+@media (max-width: 420px) {
+  .skill-grid { grid-template-columns: 1fr; }
+  .hero h1 { letter-spacing: -1.5px; }
+  .floating-tag { font-size: 10px; }
+  .visual-card { padding: 18px; }
+  .about-points { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+
+<body>
+
+<nav>
+  <div class="container nav-inner" id="navInner">
+    <a href="#home" class="logo">
+      <div class="logo-icon">🎓</div>
+      <span>Campus<span>Skill Exchange</span></span>
+    </a>
+
+    <div class="nav-links">
+      <a href="#home">Home</a>
+      <a href="#skills">Explore Skills</a>
+      <a href="#how-it-works">How It Works</a>
+      <a href="#about">About Us</a>
+    </div>
+
+    <div class="nav-actions">
+      <a class="btn btn-outline" href="login.html">Login</a>
+      <a class="btn btn-primary" href="register.html">Register</a>
+      <a class="btn btn-pink" href="admin-login.html">Admin</a>
+    </div>
+
+    <button class="menu-toggle" id="menuToggle"
+      aria-label="Toggle navigation" aria-expanded="false">☰</button>
+  </div>
+</nav>
+
+<main>
+<section class="container hero" id="home">
+  <div>
+    <span class="eyebrow">✦ LEARN · SHARE · GROW</span>
+    <h1>Campus Skills<br><span class="gradient-text">Exchange.</span></h1>
+    <p>
+      A platform for students, by students. Discover new skills,
+      share your talents, and build meaningful connections across
+      your campus community.
+    </p>
+    <div class="hero-buttons">
+      <a class="btn btn-primary" href="login.html">Get Started ↗</a>
+      <a class="btn btn-outline" href="#skills">Explore Skills ↓</a>
+    </div>
+  </div>
+
+  <div class="hero-visual">
+    <div class="orb"></div>
+    <div class="floating-tag tag-one">
+      <strong>💻 Programming</strong>
+      <small>Share what you know</small>
+    </div>
+
+    <div class="visual-card">
+      <div class="visual-top">
+        <strong>✨ Skill Hub</strong>
+        <span class="status">● Open community</span>
+      </div>
+      <h2>Grow together.</h2>
+      <p style="font-size:13px;margin:5px 0 20px;color:var(--muted)">
+        Your next skill starts with a connection.
+      </p>
+
+      <div class="profile-row">
+        <div class="avatar">👩‍💻</div>
+        <div><strong>Programming</strong><br><small>Learn · Practice · Build</small></div>
+      </div>
+      <div class="profile-row">
+        <div class="avatar" style="background:linear-gradient(135deg,#bc3fbc,#5c43d9)">🎨</div>
+        <div><strong>Creative Design</strong><br><small>Imagine · Create · Share</small></div>
+      </div>
+      <div class="profile-row">
+        <div class="avatar" style="background:linear-gradient(135deg,#087eaa,#3452df)">🎸</div>
+        <div><strong>Music & Communication</strong><br><small>Connect through talent</small></div>
+      </div>
+
+      <div class="skill-tags">
+        <span>Peer learning</span><span>Skill sharing</span><span>Campus life</span>
+      </div>
+    </div>
+
+    <div class="floating-tag tag-two">
+      <strong>🚀 Your potential, unlocked</strong>
+      <small>Learn something new today</small>
+    </div>
+  </div>
+</section>
+
+<section class="stats">
+  <div class="container stats-grid">
+    <div class="stat">
+      <div class="stat-icon">👥</div>
+      <div><strong>Peer-to-Peer Learning</strong><p>Learn directly from students</p></div>
+    </div>
+    <div class="stat">
+      <div class="stat-icon">✦</div>
+      <div><strong>Discover New Skills</strong><p>Explore your potential</p></div>
+    </div>
+    <div class="stat">
+      <div class="stat-icon">🛡️</div>
+      <div><strong>Campus Community</strong><p>Connect through knowledge</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="content-section" id="skills">
+  <div class="container skills-layout">
+    <div class="skills-intro">
+      <div class="section-label">EXPLORE SKILLS</div>
+      <h2 class="section-heading">What would you like to <span class="gradient-text">learn?</span></h2>
+      <p class="section-description">
+        From technical knowledge to creative talents, discover skills
+        you can learn or share with your campus community.
+      </p>
+      <a class="btn btn-primary" href="register.html">Join the Community ↗</a>
+    </div>
+
+    <div class="skill-grid">
+      <article class="skill-card">
+        <div class="skill-icon">💻</div>
+        <h3>Programming</h3>
+        <p>C++, Java, Python, Web Development and more.</p>
+      </article>
+      <article class="skill-card">
+        <div class="skill-icon">🎨</div>
+        <h3>Design</h3>
+        <p>UI/UX, graphic design, illustration and creativity.</p>
+      </article>
+      <article class="skill-card">
+        <div class="skill-icon">📸</div>
+        <h3>Photography</h3>
+        <p>Editing, composition and visual storytelling.</p>
+      </article>
+      <article class="skill-card">
+        <div class="skill-icon">🎤</div>
+        <h3>Communication</h3>
+        <p>Public speaking, teamwork and presentations.</p>
+      </article>
+      <article class="skill-card">
+        <div class="skill-icon">📚</div>
+        <h3>Academic Skills</h3>
+        <p>Study groups, notes, concepts and peer tutoring.</p>
+      </article>
+      <article class="skill-card">
+        <div class="skill-icon">🎵</div>
+        <h3>Creative Talents</h3>
+        <p>Music, writing, video editing, art and more.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="content-section steps-section" id="how-it-works">
+  <div class="container">
+    <div class="section-label">HOW IT WORKS</div>
+    <h2 class="section-heading">Three steps to <span class="gradient-text">get started.</span></h2>
+    <p class="section-description">Your talent can help someone else grow. Start sharing it today.</p>
+
+    <div class="steps-grid">
+      <article class="step-card">
+        <div class="step-number">STEP 01</div>
+        <div class="big-icon">🙋</div>
+        <h3>Show Your Skills</h3>
+        <p>Identify your strengths, interests, and the knowledge you want to share.</p>
+      </article>
+      <article class="step-card">
+        <div class="step-number">STEP 02</div>
+        <div class="big-icon">🔎</div>
+        <h3>Discover & Connect</h3>
+        <p>Explore skills across your campus and connect with students who share your interests.</p>
+      </article>
+      <article class="step-card">
+        <div class="step-number">STEP 03</div>
+        <div class="big-icon">📈</div>
+        <h3>Exchange & Grow</h3>
+        <p>Share knowledge, learn collaboratively, and develop skills for your future.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="content-section" id="about">
+  <div class="container about-grid">
+    <div class="about-art">
+      <div class="people">🧑‍🎓 👩‍💻 🧑‍🎨</div>
+      <div class="art-caption">Better together.</div>
+    </div>
+
+    <div>
+      <div class="section-label">ABOUT US</div>
+      <h2 class="section-heading">A campus where everyone can <span class="gradient-text">teach and learn.</span></h2>
+      <p class="section-description">
+        Campus Skill Exchange is a student-focused platform designed
+        to encourage collaborative learning. Discover talents, share
+        knowledge, and build connections within your campus.
+      </p>
+      <div class="about-points">
+        <div class="about-point">🎓 &nbsp; Collaborative Learning</div>
+        <div class="about-point">🤝 &nbsp; Skill Sharing</div>
+        <div class="about-point">🌐 &nbsp; Student Connections</div>
+        <div class="about-point">🌱 &nbsp; Continuous Growth</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="container cta">
+  <div class="cta-panel">
+    <div>
+      <h2>✨ Your knowledge has value.</h2>
+      <p>Start exploring skills and discover what your campus community can achieve together.</p>
+    </div>
+    <a href="register.html" class="btn btn-outline" style="background:#0b1027;border-color:#ffffff55">
+      Join Campus Skill Exchange ↗
+    </a>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="container footer-main">
+    <a href="#home" class="logo">
+      <div class="logo-icon">🎓</div>
+      <span>Campus<span>Skill Exchange</span></span>
+    </a>
+    <div class="footer-links">
+      <a href="#home">Home</a>
+      <a href="#skills">Explore Skills</a>
+      <a href="#how-it-works">How It Works</a>
+      <a href="#about">About Us</a>
+      <a href="login.html">Login</a>
+    </div>
+  </div>
+  <div class="container footer-bottom">
+    <span>© 2026 Campus Skill Exchange. All rights reserved.</span>
+    <span>Learn together. Share freely. Grow endlessly.</span>
+  </div>
+</footer>
+
+<script>
+const navInner = document.getElementById('navInner');
+const menuToggle = document.getElementById('menuToggle');
+
+menuToggle.addEventListener('click', function () {
+  const isOpen = navInner.classList.toggle('open');
+  menuToggle.setAttribute('aria-expanded', isOpen);
+  menuToggle.textContent = isOpen ? '✕' : '☰';
+});
+
+document.querySelectorAll('.nav-links a').forEach(function (link) {
+  link.addEventListener('click', function () {
+    navInner.classList.remove('open');
+    menuToggle.setAttribute('aria-expanded', 'false');
+    menuToggle.textContent = '☰';
+  });
+});
+</script>
+
+</body>
+</html>

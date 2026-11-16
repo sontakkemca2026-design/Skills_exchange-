@@ -1,0 +1,937 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Student Management | Campus Skill Exchange</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --bg: #070b18;
+    --panel: #10172b;
+    --panel2: #151e36;
+    --border: #293453;
+    --text: #f6f7ff;
+    --muted: #a5afc8;
+    --purple: #8b5cf6;
+    --blue: #32b7ff;
+    --pink: #ed65d9;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+}
+
+/* MAIN LAYOUT */
+
+.layout {
+    display: flex;
+    min-height: 100vh;
+}
+
+/* SIDEBAR */
+
+.sidebar {
+    width: 250px;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    padding: 28px 18px;
+    background: #0c1224;
+    border-right: 1px solid var(--border);
+}
+
+.logo {
+    font-size: 21px;
+    font-weight: 800;
+    letter-spacing: 1px;
+    margin-bottom: 42px;
+}
+
+.logo span {
+    color: var(--purple);
+}
+
+.menu-title {
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 1.5px;
+    margin: 25px 12px 12px;
+}
+
+.nav a {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+    padding: 14px;
+    margin-bottom: 7px;
+    text-decoration: none;
+    color: var(--muted);
+    font-size: 14px;
+    border-radius: 10px;
+    transition: .3s;
+}
+
+.nav a:hover,
+.nav a.active {
+    color: white;
+    background: linear-gradient(110deg, #6736cf, #286acb);
+}
+
+.sidebar-bottom {
+    position: absolute;
+    bottom: 25px;
+    left: 18px;
+    right: 18px;
+}
+
+.logout {
+    display: block;
+    text-align: center;
+    padding: 12px;
+    color: #ff8d9b;
+    text-decoration: none;
+    border: 1px solid #54303e;
+    border-radius: 10px;
+}
+
+/* MAIN CONTENT */
+
+.main {
+    margin-left: 250px;
+    width: calc(100% - 250px);
+    padding: 32px;
+}
+
+.topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 35px;
+}
+
+.topbar h1 {
+    font-size: 27px;
+}
+
+.topbar p {
+    color: var(--muted);
+    font-size: 13px;
+    margin-top: 7px;
+}
+
+.admin {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    padding: 12px 18px;
+    border-radius: 12px;
+}
+
+/* PAGE HEADING */
+
+.heading {
+    margin-bottom: 25px;
+}
+
+.heading h2 {
+    font-size: 22px;
+    margin-bottom: 8px;
+}
+
+.heading p {
+    color: var(--muted);
+    font-size: 13px;
+}
+
+/* STATISTICS */
+
+.stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+    margin-bottom: 28px;
+}
+
+.stat-card {
+    background: linear-gradient(145deg, #151e36, #10172b);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 23px;
+    transition: .3s;
+}
+
+.stat-card:hover {
+    transform: translateY(-4px);
+    border-color: var(--purple);
+}
+
+.stat-icon {
+    font-size: 26px;
+    margin-bottom: 15px;
+}
+
+.stat-card h3 {
+    font-size: 30px;
+    margin-bottom: 7px;
+}
+
+.stat-card p {
+    color: var(--muted);
+    font-size: 13px;
+}
+
+.purple {
+    color: #ae8aff;
+}
+
+.blue {
+    color: var(--blue);
+}
+
+.pink {
+    color: var(--pink);
+}
+
+/* STUDENT TABLE PANEL */
+
+.student-panel {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 17px;
+    padding: 24px;
+}
+
+.panel-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 23px;
+}
+
+.panel-header h2 {
+    font-size: 19px;
+}
+
+.panel-header p {
+    color: var(--muted);
+    font-size: 12px;
+    margin-top: 7px;
+}
+
+.refresh-btn {
+    padding: 11px 17px;
+    border: none;
+    border-radius: 9px;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    background: linear-gradient(110deg, var(--purple), #347fe7);
+}
+
+.refresh-btn:hover {
+    opacity: .85;
+}
+
+/* SEARCH AND FILTER */
+
+.controls {
+    display: flex;
+    gap: 13px;
+    margin-bottom: 20px;
+}
+
+.search {
+    flex: 1;
+}
+
+.search input,
+.controls select {
+    width: 100%;
+    padding: 14px;
+    background: #080f20;
+    border: 1px solid var(--border);
+    color: white;
+    border-radius: 10px;
+    outline: none;
+    font-size: 13px;
+}
+
+.search input:focus,
+.controls select:focus {
+    border-color: var(--purple);
+}
+
+.controls select {
+    width: 190px;
+}
+
+/* TABLE */
+
+.table-wrap {
+    width: 100%;
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    min-width: 900px;
+    border-collapse: collapse;
+}
+
+thead {
+    background: #151e36;
+}
+
+th {
+    text-align: left;
+    padding: 16px 13px;
+    color: var(--muted);
+    font-size: 11px;
+    letter-spacing: 1px;
+    white-space: nowrap;
+}
+
+td {
+    padding: 17px 13px;
+    border-bottom: 1px solid #222d49;
+    font-size: 13px;
+}
+
+tbody tr:hover {
+    background: #18223d;
+}
+
+.student-info {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+}
+
+.avatar {
+    min-width: 39px;
+    width: 39px;
+    height: 39px;
+    border-radius: 11px;
+    display: grid;
+    place-items: center;
+    font-weight: bold;
+    background: linear-gradient(135deg, var(--purple), var(--blue));
+}
+
+.student-name {
+    font-weight: bold;
+}
+
+.student-email {
+    font-size: 11px;
+    color: var(--muted);
+    margin-top: 5px;
+}
+
+.status {
+    display: inline-block;
+    padding: 6px 11px;
+    border-radius: 20px;
+    background: #123c32;
+    color: #55e5b0;
+    font-size: 11px;
+}
+
+.empty {
+    text-align: center;
+    color: var(--muted);
+    padding: 35px;
+}
+
+.message {
+    color: var(--muted);
+    font-size: 13px;
+    margin-bottom: 15px;
+}
+
+/* RESPONSIVE */
+
+@media(max-width: 950px) {
+    .stats {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media(max-width: 650px) {
+    .layout {
+        display: block;
+    }
+
+    .sidebar {
+        position: relative;
+        width: 100%;
+        height: auto;
+        padding: 15px;
+    }
+
+    .logo {
+        margin-bottom: 15px;
+    }
+
+    .nav {
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    .nav a {
+        padding: 9px;
+        font-size: 12px;
+    }
+
+    .menu-title,
+    .sidebar-bottom {
+        display: none;
+    }
+
+    .main {
+        margin: 0;
+        width: 100%;
+        padding: 18px;
+    }
+
+    .stats {
+        grid-template-columns: 1fr;
+    }
+
+    .topbar,
+    .panel-header {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .controls {
+        flex-direction: column;
+    }
+
+    .controls select {
+        width: 100%;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="layout">
+
+    <!-- SIDEBAR -->
+
+    <aside class="sidebar">
+
+        <div class="logo">
+            CAMPUS <span>SKILLS</span>
+        </div>
+
+        <div class="menu-title">MAIN MENU</div>
+
+        <nav class="nav">
+            <a href="admin_dash.html">📊 Dashboard</a>
+
+            <a href="students.html" class="active">
+                👨‍🎓 Students
+            </a>
+
+            <a href="admin_dash.html">💡 Skills</a>
+
+            <a href="admin_dash.html">🔄 Exchange Requests</a>
+
+            <a href="admin_dash.html">⭐ Feedback</a>
+        </nav>
+
+        <div class="sidebar-bottom">
+            <a href="#" class="logout" onclick="logout()">
+                ↪ Logout
+            </a>
+        </div>
+
+    </aside>
+
+    <!-- MAIN CONTENT -->
+
+    <main class="main">
+
+        <header class="topbar">
+
+            <div>
+                <h1>Student Management</h1>
+                <p>Manage all registered students in your campus</p>
+            </div>
+
+            <div class="admin">
+                👤 <span id="adminName">Admin</span>
+            </div>
+
+        </header>
+
+        <!-- HEADING -->
+
+        <section class="heading">
+            <h2>Students Overview</h2>
+            <p>
+                Monitor student registrations and view student details.
+            </p>
+        </section>
+
+        <!-- STATISTICS -->
+
+        <section class="stats">
+
+            <div class="stat-card">
+                <div class="stat-icon purple">👨‍🎓</div>
+                <h3 id="totalStudents">0</h3>
+                <p>Total Registered Students</p>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon blue">📚</div>
+                <h3 id="totalCourses">0</h3>
+                <p>Different Courses</p>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon pink">🆕</div>
+                <h3 id="newStudents">0</h3>
+                <p>Registered in Last 30 Days</p>
+            </div>
+
+        </section>
+
+        <!-- STUDENT RECORDS -->
+
+        <section class="student-panel">
+
+            <div class="panel-header">
+
+                <div>
+                    <h2>Registered Students</h2>
+                    <p>All student records from the database</p>
+                </div>
+
+                <button class="refresh-btn" onclick="loadStudents()">
+                    ↻ Refresh
+                </button>
+
+            </div>
+
+            <!-- SEARCH -->
+
+            <div class="controls">
+
+                <div class="search">
+                    <input
+                        type="text"
+                        id="searchInput"
+                        placeholder="🔍 Search student name, email or username..."
+                        oninput="filterStudents()">
+                </div>
+
+                <select
+                    id="courseFilter"
+                    onchange="filterStudents()">
+
+                    <option value="">All Courses</option>
+
+                </select>
+
+            </div>
+
+            <div id="message" class="message">
+                Connecting to database...
+            </div>
+
+            <!-- TABLE -->
+
+            <div class="table-wrap">
+
+                <table>
+
+                    <thead>
+                        <tr>
+                            <th>STUDENT</th>
+                            <th>USERNAME</th>
+                            <th>COURSE</th>
+                            <th>MOBILE</th>
+                            <th>COLLEGE</th>
+                            <th>REGISTERED DATE</th>
+                            <th>STATUS</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="studentTable">
+
+                        <tr>
+                            <td colspan="7" class="empty">
+                                Loading student records...
+                            </td>
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </section>
+
+    </main>
+
+</div>
+
+<script>
+
+/* ADMIN AUTHENTICATION */
+
+if (!sessionStorage.getItem("adminId")) {
+    window.location.href = "admin-login.html";
+}
+
+document.getElementById("adminName").textContent =
+    sessionStorage.getItem("adminUsername") || "Admin";
+
+
+/* LOGOUT */
+
+function logout() {
+
+    sessionStorage.removeItem("adminId");
+    sessionStorage.removeItem("adminUsername");
+
+    window.location.href = "admin-login.html";
+}
+
+
+/* STUDENT DATA */
+
+let allStudents = [];
+
+
+/* LOAD STUDENTS FROM C++ API */
+
+async function loadStudents() {
+
+    const message = document.getElementById("message");
+    const table = document.getElementById("studentTable");
+
+    message.textContent = "Loading student records...";
+
+    table.innerHTML = `
+        <tr>
+            <td colspan="7" class="empty">
+                Please wait...
+            </td>
+        </tr>
+    `;
+
+    try {
+
+        const adminId = sessionStorage.getItem("adminId");
+
+        const response = await fetch(
+            "/api/admin/students?adminId=" +
+            encodeURIComponent(adminId),
+            {
+                method: "GET",
+                cache: "no-store"
+            }
+        );
+
+        const data = await response.json();
+
+        if (!response.ok || !data.success) {
+            throw new Error(
+                data.message || "Unable to load students."
+            );
+        }
+
+        allStudents = Array.isArray(data.students)
+            ? data.students
+            : [];
+
+        updateStatistics();
+        updateCourseFilter();
+        filterStudents();
+
+        message.textContent =
+            allStudents.length + " student record(s) loaded successfully.";
+
+    }
+
+    catch (error) {
+
+        console.error(error);
+
+        message.textContent =
+            "Error: " + error.message;
+
+        table.innerHTML = `
+            <tr>
+                <td colspan="7" class="empty">
+                    Unable to load student records.
+                    Please check your C++ API.
+                </td>
+            </tr>
+        `;
+
+    }
+
+}
+
+
+/* UPDATE STATISTICS */
+
+function updateStatistics() {
+
+    document.getElementById("totalStudents").textContent =
+        allStudents.length;
+
+    const courses = new Set(
+        allStudents
+            .map(student => student.course)
+            .filter(course => course && course.trim())
+    );
+
+    document.getElementById("totalCourses").textContent =
+        courses.size;
+
+    const today = new Date();
+
+    const last30Days = new Date();
+    last30Days.setDate(today.getDate() - 30);
+
+    const recent = allStudents.filter(student => {
+
+        if (!student.createdAt) return false;
+
+        const date = new Date(
+            student.createdAt.replace(" ", "T")
+        );
+
+        return !isNaN(date) && date >= last30Days;
+
+    });
+
+    document.getElementById("newStudents").textContent =
+        recent.length;
+
+}
+
+
+/* COURSE FILTER */
+
+function updateCourseFilter() {
+
+    const filter = document.getElementById("courseFilter");
+
+    const selectedCourse = filter.value;
+
+    const courses = [
+        ...new Set(
+            allStudents
+                .map(student => student.course)
+                .filter(course => course && course.trim())
+        )
+    ];
+
+    filter.innerHTML = '<option value="">All Courses</option>';
+
+    courses.sort().forEach(course => {
+
+        const option = document.createElement("option");
+
+        option.value = course;
+        option.textContent = course;
+
+        filter.appendChild(option);
+
+    });
+
+    filter.value = courses.includes(selectedCourse)
+        ? selectedCourse
+        : "";
+
+}
+
+
+/* SEARCH AND FILTER */
+
+function filterStudents() {
+
+    const search = document
+        .getElementById("searchInput")
+        .value.toLowerCase()
+        .trim();
+
+    const course = document
+        .getElementById("courseFilter")
+        .value;
+
+    const filtered = allStudents.filter(student => {
+
+        const searchable = [
+
+            student.fullName,
+            student.username,
+            student.email,
+            student.course,
+            student.mobile,
+            student.college
+
+        ].join(" ").toLowerCase();
+
+        return searchable.includes(search) &&
+            (!course || student.course === course);
+
+    });
+
+    displayStudents(filtered);
+
+}
+
+
+/* DISPLAY STUDENTS */
+
+function displayStudents(students) {
+
+    const table = document.getElementById("studentTable");
+
+    table.innerHTML = "";
+
+    if (students.length === 0) {
+
+        table.innerHTML = `
+            <tr>
+                <td colspan="7" class="empty">
+                    No students found.
+                </td>
+            </tr>
+        `;
+
+        return;
+    }
+
+    students.forEach(student => {
+
+        const row = document.createElement("tr");
+
+        // STUDENT DETAILS
+
+        const studentCell = document.createElement("td");
+
+        const info = document.createElement("div");
+        info.className = "student-info";
+
+        const avatar = document.createElement("div");
+        avatar.className = "avatar";
+
+        const name = student.fullName || "Unknown Student";
+
+        avatar.textContent = name.charAt(0).toUpperCase();
+
+        const details = document.createElement("div");
+
+        const studentName = document.createElement("div");
+        studentName.className = "student-name";
+        studentName.textContent = name;
+
+        const email = document.createElement("div");
+        email.className = "student-email";
+        email.textContent = student.email || "No email";
+
+        details.append(studentName, email);
+
+        info.append(avatar, details);
+
+        studentCell.appendChild(info);
+
+        row.appendChild(studentCell);
+
+        // OTHER DETAILS
+
+        [
+            student.username,
+            student.course,
+            student.mobile,
+            student.college
+        ].forEach(value => {
+
+            const cell = document.createElement("td");
+
+            cell.textContent = value || "—";
+
+            row.appendChild(cell);
+
+        });
+
+        // REGISTRATION DATE
+
+        const dateCell = document.createElement("td");
+
+        if (student.createdAt) {
+
+            const date = new Date(
+                student.createdAt.replace(" ", "T")
+            );
+
+            dateCell.textContent = isNaN(date)
+                ? student.createdAt
+                : date.toLocaleDateString("en-IN");
+
+        } else {
+
+            dateCell.textContent = "—";
+
+        }
+
+        row.appendChild(dateCell);
+
+        // STATUS
+
+        const statusCell = document.createElement("td");
+
+        const status = document.createElement("span");
+
+        status.className = "status";
+        status.textContent = "Registered";
+
+        statusCell.appendChild(status);
+
+        row.appendChild(statusCell);
+
+        table.appendChild(row);
+
+    });
+
+}
+
+
+/* INITIAL LOAD */
+
+loadStudents();
+
+/* AUTOMATIC REFRESH EVERY 30 SECONDS */
+
+setInterval(loadStudents, 30000);
+
+</script>
+
+</body>
+</html>

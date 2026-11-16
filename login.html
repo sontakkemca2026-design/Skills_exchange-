@@ -1,0 +1,368 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Login | Campus Skill Exchange</title>
+
+<style>
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: #070b18;
+    color: #f6f7ff;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 25px;
+}
+
+.container {
+    width: 100%;
+    max-width: 430px;
+    background: #10172b;
+    border: 1px solid #293453;
+    border-radius: 20px;
+    padding: 35px;
+    box-shadow: 0 15px 50px rgba(0,0,0,.3);
+}
+
+.logo {
+    text-align: center;
+    font-size: 38px;
+    margin-bottom: 12px;
+}
+
+h1 {
+    text-align: center;
+    font-size: 28px;
+    margin-bottom: 10px;
+}
+
+.subtitle {
+    text-align: center;
+    color: #a5afc8;
+    margin-bottom: 28px;
+    line-height: 1.5;
+}
+
+.field {
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+    margin-bottom: 19px;
+}
+
+label {
+    font-size: 14px;
+    font-weight: bold;
+}
+
+input {
+    width: 100%;
+    padding: 14px;
+    border: 1px solid #354263;
+    border-radius: 10px;
+    background: #070b18;
+    color: white;
+    font-size: 15px;
+    outline: none;
+}
+
+input:focus {
+    border-color: #8b5cf6;
+    box-shadow: 0 0 0 3px rgba(139,92,246,.15);
+}
+
+input::placeholder {
+    color: #77829f;
+}
+
+button {
+    width: 100%;
+    padding: 14px;
+    margin-top: 6px;
+    border: none;
+    border-radius: 10px;
+    background: linear-gradient(135deg,#8b5cf6,#5b6cff);
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+button:hover {
+    opacity: .92;
+}
+
+button:disabled {
+    opacity: .6;
+    cursor: wait;
+}
+
+.message {
+    display: none;
+    padding: 12px;
+    margin: 15px 0;
+    border-radius: 9px;
+    font-size: 14px;
+    line-height: 1.5;
+    overflow-wrap: anywhere;
+}
+
+.message.error {
+    display: block;
+    background: #451b2b;
+    color: #ffb4c5;
+}
+
+.message.success {
+    display: block;
+    background: #123a2d;
+    color: #a7f3d0;
+}
+
+.bottom {
+    text-align: center;
+    margin-top: 24px;
+    color: #a5afc8;
+    font-size: 14px;
+    line-height: 1.8;
+}
+
+a {
+    color: #b9a0ff;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+</style>
+</head>
+
+<body>
+
+<main class="container">
+
+    <div class="logo">🎓</div>
+
+    <h1>Welcome Back!</h1>
+
+    <p class="subtitle">
+        Login to your Campus Skill Exchange account.
+    </p>
+
+    <form id="loginForm">
+
+        <div class="field">
+            <label for="username">Username</label>
+            <input
+                id="username"
+                type="text"
+                placeholder="Enter your username"
+                required
+                autocomplete="username">
+        </div>
+
+        <div class="field">
+            <label for="password">Password</label>
+            <input
+                id="password"
+                type="password"
+                placeholder="Enter your password"
+                required
+                autocomplete="current-password">
+        </div>
+
+        <div id="message" class="message"
+             role="status" aria-live="polite"></div>
+
+        <button id="loginButton" type="submit">
+            Login
+        </button>
+
+    </form>
+
+    <p class="bottom">
+        Don't have an account?
+        <a href="/register.html">Register here</a>
+        <br>
+        <a href="/main.html">← Back to Home</a>
+    </p>
+
+</main>
+
+<script>
+
+const loginForm = document.getElementById("loginForm");
+const loginButton = document.getElementById("loginButton");
+const message = document.getElementById("message");
+
+function showMessage(text, type) {
+    message.textContent = text;
+    message.className = "message " + type;
+}
+
+// Check whether the user is already logged in.
+function isLoggedIn() {
+    return !!(
+        sessionStorage.getItem("userId") ||
+        sessionStorage.getItem("user_id")
+    );
+}
+
+// If already logged in, open dashboard.
+if (isLoggedIn()) {
+    window.location.replace("/student_dash.html");
+}
+
+// Convert password into SHA-256 hash.
+async function hashPassword(password) {
+
+    const data = new TextEncoder().encode(password);
+
+    const hashBuffer = await crypto.subtle.digest(
+        "SHA-256",
+        data
+    );
+
+    return Array.from(new Uint8Array(hashBuffer))
+        .map(byte => byte.toString(16).padStart(2, "0"))
+        .join("");
+}
+
+// Save login information in localStorage and sessionStorage.
+function saveStudentLogin(studentId, studentName) {
+
+    const id = String(studentId);
+    const name = studentName || "Student";
+
+    // Save in localStorage.
+    localStorage.setItem("userId", id);
+    localStorage.setItem("user_id", id);
+    localStorage.setItem("studentId", id);
+    localStorage.setItem("student_id", id);
+    localStorage.setItem("studentName", name);
+
+    // Save in sessionStorage for the dashboard.
+    sessionStorage.setItem("userId", id);
+    sessionStorage.setItem("user_id", id);
+    sessionStorage.setItem("studentId", id);
+    sessionStorage.setItem("student_id", id);
+    sessionStorage.setItem("studentName", name);
+}
+
+// Login form submission.
+loginForm.addEventListener("submit", async function(event) {
+
+    event.preventDefault();
+
+    const username =
+        document.getElementById("username").value.trim();
+
+    const password =
+        document.getElementById("password").value;
+
+    if (!username || !password) {
+        showMessage(
+            "Please enter username and password.",
+            "error"
+        );
+        return;
+    }
+
+    if (!window.crypto || !crypto.subtle) {
+        showMessage(
+            "Please open the website using http://127.0.0.1:8080/login.html.",
+            "error"
+        );
+        return;
+    }
+
+    loginButton.disabled = true;
+    loginButton.textContent = "Logging in...";
+
+    try {
+
+        const passwordHash = await hashPassword(password);
+
+        const formData = new URLSearchParams();
+
+        formData.append("username", username);
+        formData.append("passwordHash", passwordHash);
+
+        const response = await fetch("/api/login", {
+            method: "POST",
+            headers: {
+                "Content-Type":
+                    "application/x-www-form-urlencoded;charset=UTF-8"
+            },
+            body: formData.toString()
+        });
+
+        const result = await response.json();
+
+        if (!response.ok || !result.success) {
+            throw new Error(
+                result.message || "Login failed."
+            );
+        }
+
+        // Get Student ID returned by the C++ server.
+        const studentId = result.user_id;
+
+        if (
+            studentId === undefined ||
+            studentId === null ||
+            String(studentId).trim() === "" ||
+            Number(studentId) <= 0
+        ) {
+            throw new Error(
+                "Student ID was not returned by the C++ server."
+            );
+        }
+
+        const studentName = result.full_name || username;
+
+        // Save the account information.
+        saveStudentLogin(studentId, studentName);
+
+        showMessage(
+            "Login successful! Opening dashboard...",
+            "success"
+        );
+
+        loginButton.textContent = "Login Successful";
+
+        setTimeout(function() {
+            window.location.href = "/student_dash.html";
+        }, 700);
+
+    }
+    catch(error) {
+
+        showMessage(
+            error.message.includes("Failed to fetch")
+                ? "Cannot connect to server. Please start campus_web.exe."
+                : error.message,
+            "error"
+        );
+
+        loginButton.disabled = false;
+        loginButton.textContent = "Login";
+    }
+
+});
+
+</script>
+
+</body>
+</html>

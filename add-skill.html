@@ -1,0 +1,585 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Share Your Skills | Campus Skill Exchange</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Inter', sans-serif;
+}
+
+body {
+    background: #080b18;
+    color: #f6f7ff;
+    min-height: 100vh;
+}
+
+.navbar {
+    height: 75px;
+    background: #10172b;
+    border-bottom: 1px solid #293453;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 7%;
+}
+
+.logo {
+    font-size: 21px;
+    font-weight: 800;
+    color: #a78bfa;
+}
+
+.logo span {
+    color: white;
+}
+
+.back-btn {
+    color: #c4b5fd;
+    text-decoration: none;
+    border: 1px solid #59468f;
+    padding: 10px 17px;
+    border-radius: 9px;
+    font-size: 13px;
+    transition: .3s;
+}
+
+.back-btn:hover {
+    background: #7040c9;
+    color: white;
+}
+
+.container {
+    max-width: 1100px;
+    margin: 45px auto;
+    padding: 0 22px;
+}
+
+.heading {
+    text-align: center;
+    margin-bottom: 35px;
+}
+
+.heading .icon {
+    width: 65px;
+    height: 65px;
+    border-radius: 20px;
+    display: grid;
+    place-items: center;
+    font-size: 30px;
+    margin: 0 auto 18px;
+    background: linear-gradient(135deg, #713bea, #258bdc);
+    box-shadow: 0 8px 30px #7040e755;
+}
+
+.heading h1 {
+    font-size: 32px;
+    margin-bottom: 12px;
+}
+
+.heading h1 span {
+    color: #a78bfa;
+}
+
+.heading p {
+    color: #9ba8c5;
+    font-size: 14px;
+    line-height: 1.7;
+}
+
+.content {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr;
+    gap: 25px;
+    align-items: start;
+}
+
+.form-card, .info-card {
+    background: #10172b;
+    border: 1px solid #293453;
+    border-radius: 20px;
+    padding: 30px;
+}
+
+.form-card h2 {
+    font-size: 20px;
+    margin-bottom: 8px;
+}
+
+.subheading {
+    color: #8995b3;
+    font-size: 13px;
+    margin-bottom: 28px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: 9px;
+    color: #e2e5f4;
+}
+
+.required {
+    color: #f472b6;
+}
+
+input, select, textarea {
+    width: 100%;
+    padding: 14px;
+    background: #090f20;
+    border: 1px solid #303c5c;
+    border-radius: 10px;
+    color: white;
+    outline: none;
+    font-size: 13px;
+    transition: .25s;
+}
+
+input:focus, select:focus, textarea:focus {
+    border-color: #9b75ff;
+    box-shadow: 0 0 0 3px #8b5cf622;
+}
+
+input::placeholder, textarea::placeholder {
+    color: #697591;
+}
+
+select option {
+    background: #10172b;
+}
+
+textarea {
+    min-height: 120px;
+    resize: vertical;
+    line-height: 1.6;
+}
+
+.row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+}
+
+.submit-btn {
+    width: 100%;
+    padding: 15px;
+    border: none;
+    border-radius: 11px;
+    background: linear-gradient(110deg, #8b5cf6, #347de9);
+    color: white;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: .3s;
+    margin-top: 8px;
+}
+
+.submit-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 9px 25px #7040e766;
+}
+
+.submit-btn:active {
+    transform: scale(.98);
+}
+
+.info-card {
+    background:
+        radial-gradient(circle at top right, #7446d333, transparent 45%),
+        #10172b;
+}
+
+.info-card h2 {
+    font-size: 20px;
+    margin-bottom: 10px;
+}
+
+.info-card > p {
+    font-size: 13px;
+    color: #9ba8c5;
+    line-height: 1.7;
+    margin-bottom: 25px;
+}
+
+.benefit {
+    display: flex;
+    gap: 14px;
+    padding: 17px 0;
+    border-bottom: 1px solid #293453;
+}
+
+.benefit:last-child {
+    border-bottom: none;
+}
+
+.benefit-icon {
+    min-width: 42px;
+    height: 42px;
+    border-radius: 12px;
+    background: #29204c;
+    display: grid;
+    place-items: center;
+    font-size: 20px;
+}
+
+.benefit h3 {
+    font-size: 14px;
+    margin-bottom: 6px;
+}
+
+.benefit p {
+    color: #929db9;
+    font-size: 12px;
+    line-height: 1.6;
+}
+
+.tip {
+    margin-top: 25px;
+    padding: 17px;
+    border-radius: 12px;
+    background: #1b2140;
+    border: 1px solid #493b79;
+}
+
+.tip strong {
+    color: #c4b5fd;
+    font-size: 13px;
+}
+
+.tip p {
+    color: #a8b1cc;
+    font-size: 12px;
+    line-height: 1.7;
+    margin-top: 7px;
+}
+
+.toast {
+    position: fixed;
+    bottom: 25px;
+    right: 25px;
+    padding: 15px 22px;
+    background: #202a48;
+    border: 1px solid #8b5cf6;
+    border-radius: 12px;
+    color: white;
+    opacity: 0;
+    transform: translateY(15px);
+    transition: .3s;
+    pointer-events: none;
+}
+
+.toast.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.blink {
+    animation: blinkEffect .4s ease;
+}
+
+@keyframes blinkEffect {
+    35% {
+        filter: brightness(2);
+        box-shadow: 0 0 25px #9b75ff;
+    }
+}
+
+@media(max-width: 800px) {
+    .content {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media(max-width: 500px) {
+    .navbar {
+        padding: 0 5%;
+    }
+
+    .logo {
+        font-size: 16px;
+    }
+
+    .heading h1 {
+        font-size: 25px;
+    }
+
+    .form-card, .info-card {
+        padding: 21px;
+    }
+
+    .row {
+        grid-template-columns: 1fr;
+        gap: 0;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header class="navbar">
+    <div class="logo">CAMPUS <span>SKILLS</span></div>
+    <a href="student_dash.html" class="back-btn">← Dashboard</a>
+</header>
+
+<main class="container">
+
+    <section class="heading">
+        <div class="icon">💡</div>
+        <h1>Share Your <span>Skills</span></h1>
+        <p>
+            Everyone has something valuable to teach.
+            Share your knowledge and help your campus community grow!
+        </p>
+    </section>
+
+    <div class="content">
+
+        <section class="form-card">
+            <h2>Add Your Skill</h2>
+            <p class="subheading">Fill in the details about the skill you want to teach.</p>
+
+            <form id="skillForm">
+
+                <div class="form-group">
+                    <label>Skill Name <span class="required">*</span></label>
+                    <input type="text" id="skillName"
+                           placeholder="Example: Web Development" required
+                           maxlength="100">
+                </div>
+
+                <div class="row">
+                    <div class="form-group">
+                        <label>Category <span class="required">*</span></label>
+                        <select id="category" required>
+                            <option value="">Select Category</option>
+                            <option>Programming</option>
+                            <option>Web Development</option>
+                            <option>Design & Creativity</option>
+                            <option>Communication</option>
+                            <option>Languages</option>
+                            <option>Business & Management</option>
+                            <option>Music & Arts</option>
+                            <option>Other</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Skill Level <span class="required">*</span></label>
+                        <select id="level" required>
+                            <option value="">Select Level</option>
+                            <option>Beginner</option>
+                            <option>Intermediate</option>
+                            <option>Advanced</option>
+                            <option>Expert</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="form-group">
+                        <label>Experience</label>
+                        <select id="experience">
+                            <option value="">Select Experience</option>
+                            <option>Less than 6 months</option>
+                            <option>6 months - 1 year</option>
+                            <option>1 - 2 years</option>
+                            <option>2 - 5 years</option>
+                            <option>More than 5 years</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Availability <span class="required">*</span></label>
+                        <select id="availability" required>
+                            <option value="">Select Availability</option>
+                            <option>Weekdays</option>
+                            <option>Weekends</option>
+                            <option>Both</option>
+                            <option>Flexible</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>About Your Skill <span class="required">*</span></label>
+                    <textarea id="description"
+                        placeholder="Describe what you can teach and what students will learn..."
+                        required maxlength="1000"></textarea>
+                </div>
+
+                <button type="submit" class="submit-btn" id="submitBtn">
+                    🚀 Share My Skill
+                </button>
+
+            </form>
+        </section>
+
+        <aside class="info-card">
+            <h2>Why Share Your Skills? ✨</h2>
+            <p>
+                Your knowledge can make a difference.
+                Become a part of a community where students learn from students.
+            </p>
+
+            <div class="benefit">
+                <div class="benefit-icon">🌱</div>
+                <div>
+                    <h3>Grow Together</h3>
+                    <p>Improve your knowledge while helping other students.</p>
+                </div>
+            </div>
+
+            <div class="benefit">
+                <div class="benefit-icon">🤝</div>
+                <div>
+                    <h3>Connect With Students</h3>
+                    <p>Meet talented people and build useful connections.</p>
+                </div>
+            </div>
+
+            <div class="benefit">
+                <div class="benefit-icon">🏆</div>
+                <div>
+                    <h3>Build Your Experience</h3>
+                    <p>Develop your teaching, communication and leadership skills.</p>
+                </div>
+            </div>
+
+            <div class="benefit">
+                <div class="benefit-icon">💜</div>
+                <div>
+                    <h3>Make An Impact</h3>
+                    <p>Help create a stronger learning community on your campus.</p>
+                </div>
+            </div>
+
+            <div class="tip">
+                <strong>💡 Pro Tip</strong>
+                <p>
+                    Write a clear description of your skill.
+                    Mention what you can teach and your experience.
+                    This helps other students understand your expertise.
+                </p>
+            </div>
+        </aside>
+
+    </div>
+</main>
+
+<div class="toast" id="toast"></div>
+
+<script>
+
+const form = document.getElementById("skillForm");
+const toast = document.getElementById("toast");
+const button = document.getElementById("submitBtn");
+
+let toastTimer;
+
+function showToast(message) {
+    toast.textContent = message;
+    toast.classList.add("show");
+
+    clearTimeout(toastTimer);
+
+    toastTimer = setTimeout(() => {
+        toast.classList.remove("show");
+    }, 3000);
+}
+
+form.addEventListener("submit", async function(event) {
+
+    event.preventDefault();
+
+    const userId = sessionStorage.getItem("studentId");
+
+    if (!userId) {
+        showToast("Please log in first!");
+
+        setTimeout(() => {
+            window.location.href = "login.html";
+        }, 1500);
+
+        return;
+    }
+
+    const formData = new URLSearchParams();
+
+    formData.append("userId", userId);
+
+    formData.append("skillName",
+        document.getElementById("skillName").value.trim());
+
+    formData.append("category",
+        document.getElementById("category").value);
+
+    formData.append("level",
+        document.getElementById("level").value);
+
+    formData.append("experience",
+        document.getElementById("experience").value);
+
+    formData.append("availability",
+        document.getElementById("availability").value);
+
+    formData.append("description",
+        document.getElementById("description").value.trim());
+
+    button.disabled = true;
+    button.textContent = "Saving Skill...";
+
+    try {
+
+        const response = await fetch("/api/skills", {
+            method: "POST",
+
+            headers: {
+                "Content-Type":
+                    "application/x-www-form-urlencoded;charset=UTF-8"
+            },
+
+            body: formData.toString()
+        });
+
+        const data = await response.json();
+
+        if (!response.ok || !data.success) {
+            throw new Error(data.message || "Could not save skill.");
+        }
+
+        showToast("✅ " + data.message);
+
+        form.reset();
+
+    } catch (error) {
+
+        showToast("❌ " + error.message);
+
+        console.error("Add Skill Error:", error);
+
+    } finally {
+
+        button.disabled = false;
+        button.textContent = "🚀 Share My Skill";
+
+    }
+});
+
+</script>
+
+</body>
+</html>

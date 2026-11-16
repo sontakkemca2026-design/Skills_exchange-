@@ -1,0 +1,394 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Administrator Login | Campus Skill Exchange</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --bg: #070b18;
+    --panel: #10172b;
+    --border: #293453;
+    --text: #f6f7ff;
+    --muted: #a5afc8;
+    --purple: #8b5cf6;
+    --blue: #32b7ff;
+    --danger: #ff7777;
+}
+
+body {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    font-family: Inter, Arial, sans-serif;
+    color: var(--text);
+    background:
+        radial-gradient(circle at 15% 15%, #39216b55, transparent 35%),
+        radial-gradient(circle at 85% 85%, #123b7055, transparent 35%),
+        var(--bg);
+}
+
+.login-wrapper {
+    width: 100%;
+    max-width: 460px;
+}
+
+.brand {
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+.brand-icon {
+    width: 68px;
+    height: 68px;
+    margin: 0 auto 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 20px;
+    font-size: 31px;
+    background: linear-gradient(135deg, var(--purple), #347de9);
+    box-shadow: 0 8px 30px #8b5cf644;
+}
+
+.brand h1 {
+    font-size: 25px;
+    letter-spacing: .5px;
+}
+
+.brand p {
+    margin-top: 8px;
+    color: var(--muted);
+    font-size: 13px;
+}
+
+.login-container {
+    width: 100%;
+    padding: 38px;
+    background: rgba(16, 23, 43, .96);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    box-shadow: 0 20px 60px rgba(0,0,0,.45);
+}
+
+.heading {
+    margin-bottom: 28px;
+}
+
+.heading h2 {
+    font-size: 23px;
+    margin-bottom: 9px;
+}
+
+.heading p {
+    color: var(--muted);
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+.security-note {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 14px;
+    margin-bottom: 25px;
+    border: 1px solid #8b5cf633;
+    border-radius: 10px;
+    background: #8b5cf611;
+    color: #c9b6ff;
+    font-size: 12px;
+}
+
+.form-group {
+    margin-bottom: 21px;
+}
+
+label {
+    display: block;
+    margin-bottom: 9px;
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.input-wrap {
+    position: relative;
+}
+
+input {
+    width: 100%;
+    padding: 14px 15px;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    background: #070b18;
+    color: var(--text);
+    font-size: 14px;
+    outline: none;
+    transition: .2s;
+}
+
+input::placeholder {
+    color: #68738e;
+}
+
+input:focus {
+    border-color: var(--purple);
+    box-shadow: 0 0 0 3px #8b5cf622;
+}
+
+.password-input {
+    padding-right: 65px;
+}
+
+.toggle-password {
+    position: absolute;
+    right: 13px;
+    top: 50%;
+    transform: translateY(-50%);
+    border: none;
+    background: transparent;
+    color: var(--muted);
+    font-size: 12px;
+    cursor: pointer;
+    width: auto;
+    padding: 5px;
+}
+
+.toggle-password:hover {
+    color: white;
+}
+
+#error {
+    display: none;
+    margin-bottom: 17px;
+    padding: 11px 13px;
+    border: 1px solid #ff777744;
+    border-radius: 9px;
+    background: #ff777711;
+    color: var(--danger);
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+.login-btn {
+    width: 100%;
+    padding: 15px;
+    border: none;
+    border-radius: 10px;
+    background: linear-gradient(135deg, var(--purple), #347de9);
+    color: white;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: .2s;
+    box-shadow: 0 7px 22px #8b5cf633;
+}
+
+.login-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 28px #8b5cf655;
+}
+
+.login-btn:disabled {
+    opacity: .65;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.back-link {
+    display: block;
+    margin-top: 23px;
+    text-align: center;
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 13px;
+}
+
+.back-link:hover {
+    color: var(--blue);
+}
+
+.footer {
+    text-align: center;
+    margin-top: 24px;
+    color: #78839f;
+    font-size: 11px;
+    line-height: 1.7;
+}
+
+@media (max-width: 480px) {
+    .login-container {
+        padding: 27px 22px;
+    }
+
+    .brand h1 {
+        font-size: 22px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="login-wrapper">
+
+    <div class="brand">
+        <div class="brand-icon">🛡️</div>
+        <h1>Campus Skill Exchange</h1>
+        <p>Administrator Control Center</p>
+    </div>
+
+    <div class="login-container">
+
+        <div class="heading">
+            <h2>Welcome Back, Admin</h2>
+            <p>Sign in with your administrator credentials to manage the campus skill exchange platform.</p>
+        </div>
+
+        <div class="security-note">
+            🔒 <span>Restricted access. Only authorized administrators can sign in.</span>
+        </div>
+
+        <form id="adminLoginForm">
+
+            <div class="form-group">
+                <label for="username">Admin Username</label>
+                <input
+                    type="text"
+                    id="username"
+                    name="username"
+                    placeholder="Enter your username"
+                    autocomplete="username"
+                    required
+                >
+            </div>
+
+            <div class="form-group">
+                <label for="password">Password</label>
+
+                <div class="input-wrap">
+                    <input
+                        type="password"
+                        id="password"
+                        name="password"
+                        class="password-input"
+                        placeholder="Enter your password"
+                        autocomplete="current-password"
+                        required
+                    >
+
+                    <button
+                        type="button"
+                        class="toggle-password"
+                        id="togglePassword"
+                    >Show</button>
+                </div>
+            </div>
+
+            <p id="error" role="alert" aria-live="polite"></p>
+
+            <button type="submit" class="login-btn" id="loginBtn">
+                Sign In to Admin Panel →
+            </button>
+
+        </form>
+
+        <a href="main.html" class="back-link">
+            ← Back to Home
+        </a>
+
+    </div>
+
+    <div class="footer">
+        © 2026 Campus Skill Exchange System<br>
+        Secure Administrator Access
+    </div>
+
+</div>
+
+<script>
+const form = document.getElementById("adminLoginForm");
+const passwordInput = document.getElementById("password");
+const togglePassword = document.getElementById("togglePassword");
+const errorBox = document.getElementById("error");
+const loginBtn = document.getElementById("loginBtn");
+
+togglePassword.addEventListener("click", function() {
+    const isPassword = passwordInput.type === "password";
+
+    passwordInput.type = isPassword ? "text" : "password";
+    togglePassword.textContent = isPassword ? "Hide" : "Show";
+});
+
+form.addEventListener("submit", async function(e) {
+    e.preventDefault();
+
+    const username = document.getElementById("username").value.trim();
+    const password = passwordInput.value;
+
+    errorBox.style.display = "none";
+    errorBox.textContent = "";
+
+    if (!username || !password) {
+        showError("Please enter your username and password.");
+        return;
+    }
+
+    loginBtn.disabled = true;
+    loginBtn.textContent = "Authenticating...";
+
+    try {
+        const response = await fetch("/api/admin/login", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/x-www-form-urlencoded"
+            },
+            body: new URLSearchParams({
+                username: username,
+                password: password
+            })
+        });
+
+        const result = await response.json();
+
+        if (response.ok && result.success && result.adminId) {
+
+            // Clear any previous administrator session.
+            sessionStorage.removeItem("adminId");
+            sessionStorage.removeItem("adminUsername");
+
+            sessionStorage.setItem("adminId", result.adminId);
+            sessionStorage.setItem("adminUsername", username);
+
+            window.location.href = "/admin_dash.html";
+            return;
+
+        } else {
+            showError(result.message || "Invalid administrator username or password.");
+        }
+
+    } catch (err) {
+        showError("Unable to connect to the server. Make sure your C++ server is running.");
+    }
+
+    loginBtn.disabled = false;
+    loginBtn.textContent = "Sign In to Admin Panel →";
+});
+
+function showError(message) {
+    errorBox.textContent = message;
+    errorBox.style.display = "block";
+}
+</script>
+
+</body>
+</html>

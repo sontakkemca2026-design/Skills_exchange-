@@ -1,0 +1,488 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Skill Requests | Campus Skill Exchange</title>
+
+<style>
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: #070b18;
+    color: #f6f7ff;
+}
+
+header {
+    background: #10172b;
+    border-bottom: 1px solid #293453;
+    padding: 20px 5%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.logo {
+    font-size: 23px;
+    font-weight: bold;
+}
+
+.logo span {
+    color: #9b75ff;
+}
+
+nav {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+nav a {
+    color: #c9d3ee;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+nav a:hover {
+    color: #9b75ff;
+}
+
+main {
+    max-width: 1100px;
+    margin: 35px auto;
+    padding: 0 22px;
+}
+
+.hero {
+    padding: 35px;
+    border-radius: 22px;
+    background: linear-gradient(115deg, #5125a5, #193d70);
+    border: 1px solid #5142a0;
+}
+
+.hero h1 {
+    font-size: 30px;
+    margin-bottom: 12px;
+}
+
+.hero p {
+    color: #e0e6ff;
+    line-height: 1.6;
+}
+
+.tabs {
+    display: flex;
+    gap: 12px;
+    margin: 25px 0;
+    flex-wrap: wrap;
+}
+
+.tab {
+    padding: 13px 20px;
+    border-radius: 12px;
+    border: 1px solid #38466a;
+    background: #10172b;
+    color: #d7def4;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.tab.active {
+    background: linear-gradient(100deg, #7545e8, #278eea);
+    border: none;
+    color: white;
+}
+
+.request-list {
+    display: grid;
+    gap: 20px;
+}
+
+.request-card {
+    background: #10172b;
+    border: 1px solid #293453;
+    border-radius: 18px;
+    padding: 25px;
+}
+
+.request-card h3 {
+    font-size: 22px;
+}
+
+.row {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.muted {
+    color: #a5afc8;
+    line-height: 1.6;
+    margin: 12px 0;
+}
+
+.question {
+    background: #080e1d;
+    border: 1px solid #293453;
+    padding: 16px;
+    border-radius: 12px;
+    margin: 15px 0;
+    white-space: pre-wrap;
+    line-height: 1.6;
+}
+
+.status {
+    color: #bfa8ff;
+    font-size: 13px;
+    font-weight: bold;
+}
+
+.reply {
+    background: #14243a;
+    border: 1px solid #294c70;
+    padding: 17px;
+    border-radius: 12px;
+    margin-top: 15px;
+    line-height: 1.6;
+    white-space: pre-wrap;
+}
+
+textarea {
+    width: 100%;
+    min-height: 100px;
+    margin: 15px 0;
+    background: #080e1d;
+    color: white;
+    border: 1px solid #344263;
+    border-radius: 12px;
+    padding: 15px;
+    font-family: Arial, sans-serif;
+    font-size: 15px;
+}
+
+textarea:focus {
+    outline: 1px solid #8b5cf6;
+}
+
+.send {
+    background: linear-gradient(100deg, #7545e8, #278eea);
+    border: none;
+    border-radius: 11px;
+    padding: 13px 20px;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.send:hover {
+    opacity: 0.85;
+}
+
+.empty {
+    background: #10172b;
+    border: 1px solid #293453;
+    border-radius: 16px;
+    padding: 25px;
+    color: #c5cee5;
+    line-height: 1.6;
+}
+
+footer {
+    text-align: center;
+    color: #7888ad;
+    padding: 35px;
+}
+
+@media(max-width:600px) {
+    .hero {
+        padding: 25px;
+    }
+
+    .hero h1 {
+        font-size: 25px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <div class="logo">
+        <span>CAMPUS</span> SKILLS
+    </div>
+
+    <nav>
+        <a href="student_dash.html">Dashboard</a>
+        <a href="explore.html">Explore Skills</a>
+        <a href="requests.html">Requests</a>
+        <a href="login.html" onclick="sessionStorage.clear()">Logout</a>
+    </nav>
+</header>
+
+<main>
+
+    <section class="hero">
+        <h1>Skill Requests 💬</h1>
+        <p>
+            Connect with students, answer their questions
+            and continue your learning journey together.
+        </p>
+    </section>
+
+    <div class="tabs">
+        <button class="tab active" id="receivedTab"
+            onclick="switchView('received')">
+            Requests for My Skills
+        </button>
+
+        <button class="tab" id="sentTab"
+            onclick="switchView('sent')">
+            My Learning Requests
+        </button>
+    </div>
+
+    <section id="list" class="request-list">
+        <div class="empty">Loading requests...</div>
+    </section>
+
+</main>
+
+<footer>
+    © 2026 Campus Skill Exchange System | Learn • Share • Grow
+</footer>
+
+<script>
+
+const studentId =
+    sessionStorage.getItem("studentId") ||
+    sessionStorage.getItem("userId") ||
+    sessionStorage.getItem("user_id");
+
+let currentView = "received";
+
+const list = document.getElementById("list");
+
+if (!studentId) {
+    list.textContent = "Please log in first.";
+
+    setTimeout(() => {
+        window.location.href = "login.html";
+    }, 1500);
+} else {
+    loadRequests();
+}
+
+function switchView(view) {
+    currentView = view;
+
+    document.getElementById("receivedTab")
+        .classList.toggle("active", view === "received");
+
+    document.getElementById("sentTab")
+        .classList.toggle("active", view === "sent");
+
+    loadRequests();
+}
+
+function escapeHTML(value) {
+    return String(value ?? "").replace(/[&<>"']/g, char => ({
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;",
+        "'": "&#39;"
+    })[char]);
+}
+
+async function readJSON(response) {
+    const text = await response.text();
+
+    try {
+        return JSON.parse(text);
+    } catch {
+        throw new Error(
+            "Server returned an invalid response. HTTP " +
+            response.status + ": " + text.substring(0, 180)
+        );
+    }
+}
+
+async function loadRequests() {
+    list.innerHTML =
+        '<div class="empty">Loading requests...</div>';
+
+    try {
+        const response = await fetch(
+            "/api/requests?userId=" +
+            encodeURIComponent(studentId) +
+            "&view=" + encodeURIComponent(currentView)
+        );
+
+        const data = await readJSON(response);
+
+        if (!response.ok || !data.success) {
+            throw new Error(data.message || "Unable to load requests.");
+        }
+
+        renderRequests(data.requests || []);
+
+    } catch (error) {
+        list.innerHTML =
+            '<div class="empty">Error: ' +
+            escapeHTML(error.message) +
+            '</div>';
+    }
+}
+
+function renderRequests(items) {
+    list.innerHTML = "";
+
+    if (!items.length) {
+        list.innerHTML =
+            '<div class="empty">' +
+            (currentView === "received"
+                ? "No students have requested your skills yet."
+                : "You have not sent any learning requests yet.") +
+            '</div>';
+        return;
+    }
+
+    items.forEach(request => {
+        const card = document.createElement("article");
+        card.className = "request-card";
+
+        const person = currentView === "received"
+            ? request.requester_name
+            : request.owner_name;
+
+        // Database uses response_message.
+        // Also support reply if the API returns that field.
+        const replyText = String(
+            request.reply || request.response_message || ""
+        ).trim();
+
+        const isReplied = replyText.length > 0;
+
+        let html = `
+            <div class="row">
+                <h3>${escapeHTML(request.skill_name)}</h3>
+
+                <span class="status">
+                    ${isReplied ? "✓ REPLIED" : "● PENDING"}
+                </span>
+            </div>
+
+            <p class="muted">
+                ${currentView === "received"
+                    ? "Question from "
+                    : "Your request to "}
+                ${escapeHTML(person)}
+                · ${escapeHTML(request.created_at)}
+            </p>
+
+            <div class="question">
+                ${escapeHTML(request.question || request.message)}
+            </div>
+        `;
+
+        if (currentView === "received") {
+
+            if (isReplied) {
+                html += `
+                    <div class="reply">
+                        <b>Your reply:</b>
+                        <br>
+                        ${escapeHTML(replyText)}
+                    </div>
+                `;
+            } else {
+                html += `
+                    <textarea
+                        id="reply-${Number(request.request_id)}"
+                        placeholder="Write your answer to this student..."></textarea>
+
+                    <button class="send"
+                        onclick="sendReply(${Number(request.request_id)})">
+                        Send Reply
+                    </button>
+                `;
+            }
+
+        } else {
+
+            html += `
+                <div class="reply">
+                    <b>Reply from ${escapeHTML(request.owner_name)}:</b>
+                    <br>
+                    ${isReplied
+                        ? escapeHTML(replyText)
+                        : "Waiting for the skill owner to reply..."}
+                </div>
+            `;
+        }
+
+        card.innerHTML = html;
+        list.appendChild(card);
+    });
+}
+
+async function sendReply(requestId) {
+    const textarea = document.getElementById("reply-" + requestId);
+
+    if (!textarea) {
+        alert("Reply box not found. Please refresh the page.");
+        return;
+    }
+
+    const reply = textarea.value.trim();
+
+    if (!reply) {
+        alert("Please write your reply first.");
+        return;
+    }
+
+    try {
+        const body = new URLSearchParams();
+
+        body.append("requestId", requestId);
+        body.append("ownerId", studentId);
+        body.append("reply", reply);
+
+        const response = await fetch("/api/reply", {
+            method: "POST",
+            headers: {
+                "Content-Type":
+                    "application/x-www-form-urlencoded;charset=UTF-8"
+            },
+            body: body.toString()
+        });
+
+        const data = await readJSON(response);
+
+        if (!response.ok || !data.success) {
+            throw new Error(data.message || "Reply could not be sent.");
+        }
+
+        alert("Your reply has been sent successfully!");
+
+        await loadRequests();
+
+    } catch (error) {
+        alert("Error: " + error.message);
+    }
+}
+
+</script>
+
+</body>
+</html>

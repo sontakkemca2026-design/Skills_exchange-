@@ -1,0 +1,8 @@
+*exe
+*.o
+*.dll
+*.log
+*.bak
+.vscode/
+.env
+db_config.h

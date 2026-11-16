@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Student Feedback | Campus Skill Exchange</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Inter', sans-serif;
+}
+
+body {
+    background: #080b18;
+    color: #f5f5ff;
+    min-height: 100vh;
+}
+
+.layout {
+    display: flex;
+    min-height: 100vh;
+}
+
+/* SIDEBAR */
+.sidebar {
+    width: 250px;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: flex;
+    flex-direction: column;
+    background: #10152a;
+    border-right: 1px solid #293453;
+    padding: 28px 18px 18px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.logo {
+    font-size: 21px;
+    font-weight: 800;
+    color: #a78bfa;
+    margin: 5px 8px 38px;
+}
+
+.logo span {
+    color: white;
+}
+
+.menu-title {
+    color: #77829f;
+    font-size: 11px;
+    letter-spacing: 2px;
+    margin: 25px 10px 12px;
+}
+
+.nav {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+}
+
+.nav a,
+.nav .logout-btn {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+    width: 100%;
+    min-height: 48px;
+    padding: 13px;
+    color: #aeb8d2;
+    text-decoration: none;
+    border: 0;
+    border-radius: 12px;
+    background: transparent;
+    margin: 0;
+    font-size: 14px;
+    font-weight: 500;
+    text-align: left;
+    cursor: pointer;
+    transition: .25s;
+    flex: 0 0 auto;
+}
+
+.nav a:hover,
+.nav a.active,
+.nav .logout-btn:hover {
+    background: linear-gradient(110deg, #713bea, #347de9);
+    color: white;
+}
+
+.logout {
+    position: static;
+    margin-top: auto;
+    padding-top: 14px;
+    border-top: 1px solid #293453;
+    flex: 0 0 auto;
+}
+
+.logout .logout-btn {
+    color: #ffb4bd;
+}
+
+.logout .logout-btn:hover {
+    background: #3a1e35;
+    color: #ffffff;
+}
+
+/* MAIN */
+.main {
+    margin-left: 250px;
+    padding: 32px 40px;
+    width: calc(100% - 250px);
+}
+
+.topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 35px;
+}
+
+.topbar h1 {
+    font-size: 26px;
+}
+
+.topbar p {
+    color: #929db9;
+    font-size: 13px;
+    margin-top: 7px;
+}
+
+.profile {
+    background: #171e36;
+    border: 1px solid #303b5d;
+    border-radius: 30px;
+    padding: 9px 17px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    background: linear-gradient(135deg, #8b5cf6, #32b7ff);
+    font-weight: 800;
+}
+
+/* HERO */
+.hero {
+    padding: 28px;
+    border: 1px solid #7961df66;
+    border-radius: 18px;
+    background:
+        radial-gradient(circle at 85% 20%, #397de955, transparent 35%),
+        linear-gradient(120deg, #5126a7, #182a60 75%, #111c3d);
+    margin-bottom: 25px;
+}
+
+.hero h2 {
+    font-size: 24px;
+    margin-bottom: 9px;
+}
+
+.hero p {
+    color: #e0dcff;
+    line-height: 1.7;
+    font-size: 14px;
+}
+
+/* FEEDBACK FORM */
+.panel {
+    background: #11182d;
+    border: 1px solid #293453;
+    border-radius: 17px;
+    padding: 25px;
+    margin-bottom: 22px;
+}
+
+.panel h2 {
+    font-size: 19px;
+    margin-bottom: 8px;
+}
+
+.sub {
+    color: #929db9;
+    font-size: 13px;
+    line-height: 1.6;
+    margin-bottom: 22px;
+}
+
+.field {
+    margin-bottom: 19px;
+}
+
+.field label {
+    display: block;
+    font-size: 13px;
+    color: #cbd4eb;
+    font-weight: 600;
+    margin-bottom: 9px;
+}
+
+textarea {
+    width: 100%;
+    padding: 13px 14px;
+    border: 1px solid #293453;
+    border-radius: 10px;
+    background: #151e36;
+    color: white;
+    outline: none;
+    font-size: 14px;
+    min-height: 125px;
+    resize: vertical;
+}
+
+textarea:focus {
+    border-color: #8b5cf6;
+}
+
+.stars {
+    display: flex;
+    gap: 8px;
+}
+
+.star {
+    border: 1px solid #293453;
+    background: #151e36;
+    color: #77829f;
+    border-radius: 10px;
+    padding: 10px 14px;
+    font-size: 25px;
+    cursor: pointer;
+    transition: .2s;
+}
+
+.star:hover {
+    border-color: #9b78fa;
+    transform: translateY(-2px);
+}
+
+.star.selected {
+    color: #ffc857;
+    border-color: #9b78fa;
+    background: #29204a;
+}
+
+.submit {
+    border: none;
+    border-radius: 10px;
+    padding: 13px 22px;
+    background: linear-gradient(110deg, #8b5cf6, #347de9);
+    color: white;
+    font-weight: 700;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.submit:disabled {
+    opacity: .55;
+    cursor: not-allowed;
+}
+
+.message {
+    display: none;
+    padding: 13px 15px;
+    border-radius: 10px;
+    margin-bottom: 18px;
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+.message.show {
+    display: block;
+}
+
+.success {
+    background: #123527;
+    color: #8df0b0;
+}
+
+.error {
+    background: #321a27;
+    color: #ff9ca8;
+}
+
+.note {
+    color: #929db9;
+    font-size: 12px;
+    margin-top: 14px;
+}
+
+footer {
+    text-align: center;
+    color: #687493;
+    font-size: 12px;
+    padding: 22px 0;
+}
+
+/* RESPONSIVE */
+@media(max-width: 750px) {
+    .sidebar {
+        width: 70px;
+        padding: 20px 9px;
+    }
+
+    .logo {
+        font-size: 0;
+        text-align: center;
+        margin: 10px 0 30px;
+    }
+
+    .logo:after {
+        content: "CSE";
+        font-size: 17px;
+    }
+
+    .menu-title {
+        display: none;
+    }
+
+    .nav a,
+    .nav .logout-btn {
+        justify-content: center;
+        font-size: 0;
+        padding: 15px 5px;
+    }
+
+    .nav a span,
+    .nav .logout-btn span {
+        font-size: 20px;
+    }
+
+    .logout {
+        margin-top: auto;
+        padding-top: 10px;
+    }
+
+    .main {
+        margin-left: 70px;
+        width: calc(100% - 70px);
+        padding: 20px 14px;
+    }
+
+    .topbar {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .hero {
+        padding: 22px;
+    }
+
+    .panel {
+        padding: 18px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="layout">
+
+<aside class="sidebar">
+
+    <div class="logo">CAMPUS <span>SKILLS</span></div>
+
+    <div class="menu-title">MAIN MENU</div>
+
+    <nav class="nav">
+        <a href="student_dash.html"><span>🏠</span> Dashboard</a>
+        <a href="explore.html"><span>🔍</span> Explore Skills</a>
+        <a href="my_skills.html"><span>🛠️</span> My Skills</a>
+        <a href="add-skill.html"><span>➕</span> Add My Skill</a>
+        <a href="requests.html"><span>📩</span> Requests</a>
+        <a href="requests.html"><span>🤝</span> My Exchanges</a>
+        <a href="profile.html"><span>👤</span> My Profile</a>
+        <a href="feedback.html" class="active"><span>⭐</span> Feedback</a>
+    </nav>
+
+    <div class="logout">
+        <button class="logout-btn" id="logoutBtn" type="button">
+            <span>🚪</span> Logout
+        </button>
+    </div>
+
+</aside>
+
+<main class="main">
+
+    <header class="topbar">
+        <div>
+            <h1>Student Feedback</h1>
+            <p>Share your experience after completing a skill exchange.</p>
+        </div>
+
+        <div class="profile">
+            <div class="avatar" id="avatar">S</div>
+            <span id="studentName">Student</span>
+        </div>
+    </header>
+
+    <section class="hero">
+        <h2>Your Experience Matters ⭐</h2>
+        <p>
+            Rate your completed exchange and leave a comment.
+            Your feedback helps students build a better learning community.
+        </p>
+    </section>
+
+    <section class="panel">
+
+        <h2>Give Feedback</h2>
+
+        <p class="sub">
+            Share your rating and experience with the Campus Skill Exchange community.
+        </p>
+
+        <div id="message" class="message"></div>
+
+        <div class="field">
+            <label>Your Rating</label>
+
+            <div class="stars" id="stars">
+                <button type="button" class="star" data-rating="1">★</button>
+                <button type="button" class="star" data-rating="2">★</button>
+                <button type="button" class="star" data-rating="3">★</button>
+                <button type="button" class="star" data-rating="4">★</button>
+                <button type="button" class="star" data-rating="5">★</button>
+            </div>
+        </div>
+
+        <div class="field">
+            <label for="comment">Your Feedback</label>
+
+            <textarea
+                id="comment"
+                maxlength="2000"
+                placeholder="Tell us about your learning experience..."
+            ></textarea>
+        </div>
+
+        <button class="submit" id="submitBtn" type="button">
+            Submit Feedback →
+        </button>
+
+        <p class="note">
+            Your feedback will be saved in the feedback database.
+        </p>
+
+    </section>
+
+    <footer>
+        © 2026 Campus Skill Exchange System | Learn • Share • Grow
+    </footer>
+
+</main>
+</div>
+
+<script>
+
+/* STUDENT SESSION */
+
+const userId =
+    localStorage.getItem("userId") ||
+    localStorage.getItem("studentId") ||
+    sessionStorage.getItem("userId") ||
+    sessionStorage.getItem("user_id") ||
+    sessionStorage.getItem("studentId");
+
+const studentName =
+    localStorage.getItem("studentName") ||
+    sessionStorage.getItem("studentName") ||
+    "Student";
+
+let selectedRating = 0;
+
+document.getElementById("studentName").textContent = studentName;
+
+document.getElementById("avatar").textContent =
+    studentName.charAt(0).toUpperCase();
+
+/* MESSAGE */
+
+function showMessage(text, type) {
+    const box = document.getElementById("message");
+    box.textContent = text;
+    box.className = "message show " + type;
+}
+
+/* LOGOUT */
+
+function logout() {
+    const keysToClear = [
+        "userId", "user_id", "studentId", "student_id",
+        "studentName", "full_name", "username", "role",
+        "isLoggedIn", "loggedIn"
+    ];
+
+    keysToClear.forEach(key => {
+        localStorage.removeItem(key);
+        sessionStorage.removeItem(key);
+    });
+
+    window.location.replace("login.html");
+}
+
+/* STAR RATING */
+
+function setRating(value) {
+    selectedRating = value;
+
+    document.querySelectorAll(".star").forEach(button => {
+        button.classList.toggle(
+            "selected",
+            Number(button.dataset.rating) <= value
+        );
+    });
+}
+
+document.querySelectorAll(".star").forEach(button => {
+    button.addEventListener("click", () => {
+        setRating(Number(button.dataset.rating));
+    });
+});
+
+/* SUBMIT SYSTEM FEEDBACK */
+
+async function submitFeedback() {
+
+    const comment =
+        document.getElementById("comment").value.trim();
+
+    const button =
+        document.getElementById("submitBtn");
+
+    if (!userId) {
+        showMessage("Please log in again.", "error");
+        return;
+    }
+
+    if (selectedRating < 1 || selectedRating > 5) {
+        showMessage("Please select a rating from 1 to 5 stars.", "error");
+        return;
+    }
+
+    button.disabled = true;
+    button.textContent = "Submitting...";
+
+    try {
+
+        const response = await fetch("/api/system-feedback", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/x-www-form-urlencoded"
+            },
+            body: new URLSearchParams({
+                userId: String(userId),
+                rating: String(selectedRating),
+                comment: comment
+            })
+        });
+
+        const raw = await response.text();
+        let data;
+
+        try {
+            data = JSON.parse(raw);
+        } catch {
+            throw new Error("Invalid server response. Check the C++ API.");
+        }
+
+        if (!response.ok || !data.success) {
+            throw new Error(
+                data.message || "Feedback could not be submitted."
+            );
+        }
+
+        showMessage(
+            data.message || "Thank you! Your feedback was submitted successfully.",
+            "success"
+        );
+
+        document.getElementById("comment").value = "";
+        setRating(0);
+
+    } catch (error) {
+
+        showMessage(error.message, "error");
+
+    } finally {
+
+        button.disabled = false;
+        button.textContent = "Submit Feedback →";
+
+    }
+}
+
+/* BUTTON EVENTS */
+
+document.getElementById("submitBtn")
+    .addEventListener("click", submitFeedback);
+
+document.getElementById("logoutBtn")
+    .addEventListener("click", logout);
+
+</script>
+
+</body>
+</html>

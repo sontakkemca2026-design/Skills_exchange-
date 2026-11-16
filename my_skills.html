@@ -1,0 +1,966 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My Skills | Campus Skill Exchange</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Inter', sans-serif;
+}
+
+body {
+    background: #080b18;
+    color: #f5f5ff;
+    min-height: 100vh;
+}
+
+.layout {
+    display: flex;
+    min-height: 100vh;
+}
+
+/* SIDEBAR */
+.sidebar {
+    width: 250px;
+    background: #10152a;
+    border-right: 1px solid #293453;
+    padding: 28px 18px;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+}
+
+.logo {
+    font-size: 21px;
+    font-weight: 800;
+    color: #a78bfa;
+    margin: 5px 8px 38px;
+}
+
+.logo span {
+    color: #fff;
+}
+
+.menu-title {
+    color: #77829f;
+    font-size: 11px;
+    letter-spacing: 2px;
+    margin: 25px 10px 12px;
+}
+
+.nav a {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+    padding: 13px;
+    color: #aeb8d2;
+    text-decoration: none;
+    border-radius: 12px;
+    margin-bottom: 7px;
+    transition: .25s;
+    font-size: 14px;
+}
+
+.nav a:hover,
+.nav a.active {
+    background: linear-gradient(110deg, #713bea, #347de9);
+    color: white;
+    box-shadow: 0 5px 20px #7040e755;
+    transform: translateX(4px);
+}
+
+.logout {
+    position: absolute;
+    bottom: 25px;
+    left: 18px;
+    right: 18px;
+}
+
+/* MAIN */
+.main {
+    margin-left: 250px;
+    padding: 30px 38px;
+    width: calc(100% - 250px);
+}
+
+.topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 35px;
+    gap: 15px;
+}
+
+.topbar h2 {
+    font-size: 24px;
+}
+
+.topbar p {
+    color: #8994b2;
+    font-size: 13px;
+    margin-top: 6px;
+}
+
+.profile {
+    background: #171e36;
+    border: 1px solid #303b5d;
+    border-radius: 30px;
+    padding: 9px 17px;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.avatar {
+    background: linear-gradient(135deg, #8b5cf6, #32b7ff);
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    font-weight: bold;
+}
+
+/* PAGE HEADER */
+.page-heading {
+    margin-bottom: 25px;
+}
+
+.page-heading h1 {
+    font-size: 27px;
+    margin-bottom: 9px;
+}
+
+.page-heading p {
+    color: #929db9;
+    font-size: 14px;
+    line-height: 1.6;
+    margin-bottom: 18px;
+}
+
+/* BUTTONS */
+.primary-btn {
+    display: inline-block;
+    background: linear-gradient(110deg, #8b5cf6, #347de9);
+    color: white;
+    padding: 12px 19px;
+    border-radius: 10px;
+    text-decoration: none;
+    border: none;
+    font-weight: 600;
+    cursor: pointer;
+    transition: .25s;
+}
+
+.primary-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 22px #7040e755;
+}
+
+.section-heading {
+    font-size: 19px;
+    margin: 28px 0 18px;
+}
+
+/* SKILL CARDS */
+.skills-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+}
+
+.skill-card {
+    background: #11182d;
+    border: 1px solid #293453;
+    padding: 23px;
+    border-radius: 17px;
+    transition: .25s;
+    min-width: 0;
+}
+
+.skill-card:hover {
+    transform: translateY(-5px);
+    border-color: #8b5cf6;
+    box-shadow: 0 10px 30px #7040e722;
+}
+
+.skill-icon {
+    font-size: 30px;
+    margin-bottom: 15px;
+}
+
+.skill-card h3 {
+    font-size: 18px;
+    margin-bottom: 12px;
+    overflow-wrap: anywhere;
+}
+
+.skill-card p {
+    color: #a5afc8;
+    font-size: 13px;
+    line-height: 1.7;
+    margin-bottom: 7px;
+    overflow-wrap: anywhere;
+}
+
+.skill-type {
+    display: inline-block;
+    padding: 6px 11px;
+    background: #25204a;
+    border: 1px solid #6348b5;
+    color: #c4b5fd;
+    border-radius: 20px;
+    font-size: 11px;
+    margin-bottom: 14px;
+}
+
+.card-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 18px;
+}
+
+.edit-btn,
+.delete-btn {
+    padding: 9px 15px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.edit-btn {
+    background: #25204a;
+    border: 1px solid #6348b5;
+    color: #c4b5fd;
+}
+
+.delete-btn {
+    background: #351b2b;
+    border: 1px solid #9c3c65;
+    color: #ff9fbd;
+}
+
+.edit-btn:hover,
+.delete-btn:hover {
+    filter: brightness(1.3);
+}
+
+/* STATUS MESSAGE */
+.message {
+    color: #a5afc8;
+    font-size: 14px;
+    padding: 25px;
+    background: #11182d;
+    border: 1px solid #293453;
+    border-radius: 14px;
+    margin-top: 15px;
+    line-height: 1.6;
+}
+
+.error {
+    color: #ff9fbd;
+    border-color: #9c3c65;
+}
+
+footer {
+    color: #687493;
+    text-align: center;
+    font-size: 12px;
+    padding: 35px 0 20px;
+}
+
+/* EDIT MODAL */
+.modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: #000b;
+    z-index: 10;
+    justify-content: center;
+    align-items: center;
+    padding: 15px;
+    overflow-y: auto;
+}
+
+.modal-content {
+    background: #11182d;
+    border: 1px solid #6348b5;
+    border-radius: 18px;
+    padding: 28px;
+    width: 100%;
+    max-width: 500px;
+    margin: auto;
+}
+
+.modal-content h2 {
+    margin-bottom: 20px;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    color: #aeb8d2;
+    font-size: 13px;
+    margin-bottom: 7px;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    width: 100%;
+    padding: 12px;
+    background: #080b18;
+    border: 1px solid #303b5d;
+    border-radius: 9px;
+    color: white;
+    outline: none;
+}
+
+.form-group textarea {
+    min-height: 90px;
+    resize: vertical;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    border-color: #8b5cf6;
+}
+
+.modal-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.cancel-btn {
+    background: #252d45;
+    border: 1px solid #45516f;
+    color: white;
+    padding: 12px 18px;
+    border-radius: 9px;
+    cursor: pointer;
+}
+
+/* RESPONSIVE */
+@media(max-width: 1050px) {
+    .skills-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media(max-width: 700px) {
+    .sidebar {
+        width: 70px;
+        padding: 20px 9px;
+    }
+
+    .logo {
+        font-size: 0;
+        text-align: center;
+        margin: 10px 0 30px;
+    }
+
+    .logo::after {
+        content: "CSE";
+        font-size: 17px;
+    }
+
+    .menu-title {
+        display: none;
+    }
+
+    .nav a {
+        justify-content: center;
+        font-size: 0;
+        padding: 15px 5px;
+    }
+
+    .nav a span {
+        font-size: 20px;
+    }
+
+    .logout {
+        left: 8px;
+        right: 8px;
+    }
+
+    .main {
+        margin-left: 70px;
+        width: calc(100% - 70px);
+        padding: 20px 14px;
+    }
+
+    .skills-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .topbar {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .topbar h2 {
+        font-size: 19px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="layout">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+
+        <div class="logo">CAMPUS <span>SKILLS</span></div>
+
+        <div class="menu-title">MAIN MENU</div>
+
+        <nav class="nav">
+            <a href="student_dash.html">
+                <span>🏠</span> Dashboard
+            </a>
+
+            <a href="explore.html">
+                <span>🔍</span> Explore Skills
+            </a>
+
+            <a href="my_skills.html" class="active">
+                <span>🛠️</span> My Skills
+            </a>
+
+            <a href="add-skill.html">
+                <span>➕</span> Add My Skill
+            </a>
+
+            <a href="requests.html">
+                <span>📩</span> Requests
+            </a>
+
+            <a href="requests.html">
+                <span>🤝</span> My Exchanges
+            </a>
+
+            <a href="profile.html">
+                <span>👤</span> My Profile
+            </a>
+        </nav>
+
+        <div class="logout">
+            <nav class="nav">
+                <a href="#" onclick="logout(); return false;">
+                    <span>🚪</span> Logout
+                </a>
+            </nav>
+        </div>
+
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="main">
+
+        <header class="topbar">
+            <div>
+                <h2>My Skills</h2>
+                <p>Manage the skills you have shared with your campus.</p>
+            </div>
+
+            <div class="profile">
+                <div class="avatar" id="avatar">S</div>
+                <span id="studentName">Student</span>
+            </div>
+        </header>
+
+        <section class="page-heading">
+            <h1>Manage Your Skills 🛠️</h1>
+            <p>
+                View, edit, update or delete the skills you have added.
+                Keep your skill information up to date.
+            </p>
+
+            <a href="add-skill.html" class="primary-btn">
+                + Add New Skill
+            </a>
+        </section>
+
+        <h3 class="section-heading">Your Added Skills</h3>
+
+        <div id="skillsMessage" class="message">
+            Loading your skills...
+        </div>
+
+        <section class="skills-grid" id="skillsGrid"></section>
+
+        <footer>
+            © 2026 Campus Skill Exchange System | Learn • Share • Grow
+        </footer>
+
+    </main>
+</div>
+
+<!-- EDIT SKILL MODAL -->
+<div class="modal" id="editModal">
+    <div class="modal-content">
+
+        <h2>Edit Your Skill</h2>
+
+        <form id="editForm">
+
+            <input type="hidden" id="editSkillId">
+
+            <div class="form-group">
+                <label>Skill Name</label>
+                <input type="text" id="editSkillName" required>
+            </div>
+
+            <div class="form-group">
+                <label>Skill Type</label>
+                <select id="editSkillType" required>
+                    <option value="teach">I can teach</option>
+                    <option value="learn">I want to learn</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Category</label>
+                <input type="text" id="editCategory">
+            </div>
+
+            <div class="form-group">
+                <label>Skill Level</label>
+                <select id="editSkillLevel">
+                    <option>Beginner</option>
+                    <option>Intermediate</option>
+                    <option>Advanced</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Experience</label>
+                <input type="text" id="editExperience">
+            </div>
+
+            <div class="form-group">
+                <label>Availability</label>
+                <input type="text" id="editAvailability">
+            </div>
+
+            <div class="form-group">
+                <label>Description</label>
+                <textarea id="editDescription"></textarea>
+            </div>
+
+            <div class="modal-actions">
+                <button type="submit" class="primary-btn">
+                    Save Changes
+                </button>
+
+                <button type="button" class="cancel-btn"
+                    onclick="closeEditModal()">
+                    Cancel
+                </button>
+            </div>
+
+        </form>
+    </div>
+</div>
+
+<script>
+
+/* --------------------------------
+   STUDENT INFORMATION
+-------------------------------- */
+
+const userId =
+    localStorage.getItem("userId") ||
+    localStorage.getItem("user_id") ||
+    localStorage.getItem("studentId") ||
+    sessionStorage.getItem("userId") ||
+    sessionStorage.getItem("user_id") ||
+    sessionStorage.getItem("studentId");
+
+const studentName =
+    localStorage.getItem("studentName") ||
+    sessionStorage.getItem("studentName") ||
+    "Student";
+
+document.getElementById("studentName").textContent = studentName;
+
+document.getElementById("avatar").textContent =
+    studentName.charAt(0).toUpperCase() || "S";
+
+
+/* --------------------------------
+   API RESPONSE HANDLER
+-------------------------------- */
+
+async function readApiResponse(response) {
+
+    const raw = await response.text();
+
+    let data;
+
+    try {
+        data = JSON.parse(raw);
+    } catch (error) {
+        console.error("Invalid API response:", raw);
+
+        throw new Error(
+            "Server returned an invalid response (HTTP " +
+            response.status +
+            "). Check that this page is opened through the C++ server."
+        );
+    }
+
+    if (!response.ok || data.success === false) {
+        throw new Error(
+            data.message || "Request failed. HTTP " + response.status
+        );
+    }
+
+    return data;
+}
+
+
+/* --------------------------------
+   LOGIN CHECK
+-------------------------------- */
+
+if (!userId) {
+
+    document.getElementById("skillsMessage").textContent =
+        "Student ID not found. Please log in again.";
+
+    document.getElementById("skillsMessage").classList.add("error");
+
+    alert("Student ID not found. Please log in again.");
+
+    window.location.replace("login.html");
+
+} else {
+
+    loadMySkills();
+
+}
+
+
+/* --------------------------------
+   LOGOUT
+-------------------------------- */
+
+function logout() {
+
+    localStorage.removeItem("userId");
+    localStorage.removeItem("user_id");
+    localStorage.removeItem("studentId");
+    localStorage.removeItem("studentName");
+
+    sessionStorage.removeItem("userId");
+    sessionStorage.removeItem("user_id");
+    sessionStorage.removeItem("studentId");
+    sessionStorage.removeItem("studentName");
+
+    window.location.replace("login.html");
+}
+
+
+/* --------------------------------
+   LOAD STUDENT SKILLS
+-------------------------------- */
+
+async function loadMySkills() {
+
+    const message = document.getElementById("skillsMessage");
+    const grid = document.getElementById("skillsGrid");
+
+    message.style.display = "block";
+    message.className = "message";
+    message.textContent = "Loading your skills...";
+
+    grid.innerHTML = "";
+
+    try {
+
+        const apiUrl =
+            "/api/my-skills?userId=" +
+            encodeURIComponent(userId);
+
+        console.log("My Skills API URL:", apiUrl);
+        console.log("Logged-in User ID:", userId);
+
+        const response = await fetch(apiUrl, {
+            method: "GET",
+            headers: {
+                "Accept": "application/json"
+            },
+            cache: "no-store"
+        });
+
+        const data = await readApiResponse(response);
+
+        const skills = Array.isArray(data.skills)
+            ? data.skills
+            : [];
+
+        if (skills.length === 0) {
+
+            message.textContent =
+                "You have not added any skills yet. Click Add New Skill to get started.";
+
+            return;
+        }
+
+        message.style.display = "none";
+
+        skills.forEach(skill => {
+
+            const card = document.createElement("div");
+            card.className = "skill-card";
+
+            const icon = document.createElement("div");
+            icon.className = "skill-icon";
+            icon.textContent = "💡";
+
+            const title = document.createElement("h3");
+            title.textContent = skill.skillName || "Unnamed Skill";
+
+            const type = document.createElement("span");
+            type.className = "skill-type";
+
+            type.textContent =
+                skill.skillType === "teach"
+                    ? "I can teach"
+                    : "I want to learn";
+
+            card.append(icon, title, type);
+
+            const details = [
+                ["Category", skill.category],
+                ["Level", skill.skillLevel],
+                ["Experience", skill.experience],
+                ["Availability", skill.availability],
+                ["Description", skill.description]
+            ];
+
+            details.forEach(([label, value]) => {
+
+                const p = document.createElement("p");
+
+                p.textContent =
+                    label + ": " + (value || "Not specified");
+
+                card.appendChild(p);
+
+            });
+
+            const actions = document.createElement("div");
+            actions.className = "card-actions";
+
+            const editButton = document.createElement("button");
+            editButton.type = "button";
+            editButton.className = "edit-btn";
+            editButton.textContent = "✏️ Edit";
+
+            editButton.addEventListener("click", () => {
+                openEditModal(skill);
+            });
+
+            const deleteButton = document.createElement("button");
+            deleteButton.type = "button";
+            deleteButton.className = "delete-btn";
+            deleteButton.textContent = "🗑️ Delete";
+
+            deleteButton.addEventListener("click", () => {
+                deleteSkill(skill.skillId);
+            });
+
+            actions.append(editButton, deleteButton);
+            card.appendChild(actions);
+
+            grid.appendChild(card);
+
+        });
+
+    } catch (error) {
+
+        console.error("My Skills error:", error);
+
+        message.style.display = "block";
+        message.className = "message error";
+        message.textContent = error.message;
+
+    }
+}
+
+
+/* --------------------------------
+   OPEN EDIT FORM
+-------------------------------- */
+
+function openEditModal(skill) {
+
+    document.getElementById("editSkillId").value =
+        skill.skillId;
+
+    document.getElementById("editSkillName").value =
+        skill.skillName || "";
+
+    document.getElementById("editSkillType").value =
+        skill.skillType || "teach";
+
+    document.getElementById("editCategory").value =
+        skill.category || "";
+
+    document.getElementById("editSkillLevel").value =
+        skill.skillLevel || "Beginner";
+
+    document.getElementById("editExperience").value =
+        skill.experience || "";
+
+    document.getElementById("editAvailability").value =
+        skill.availability || "";
+
+    document.getElementById("editDescription").value =
+        skill.description || "";
+
+    document.getElementById("editModal").style.display = "flex";
+}
+
+
+function closeEditModal() {
+
+    document.getElementById("editModal").style.display = "none";
+
+}
+
+
+/* --------------------------------
+   UPDATE SKILL
+-------------------------------- */
+
+document.getElementById("editForm").addEventListener(
+    "submit",
+    async function(e) {
+
+        e.preventDefault();
+
+        const skill = {
+
+            skill_id: Number(
+                document.getElementById("editSkillId").value
+            ),
+
+            user_id: Number(userId),
+
+            skill_name: document.getElementById("editSkillName").value.trim(),
+
+            skill_type: document.getElementById("editSkillType").value,
+
+            category: document.getElementById("editCategory").value.trim(),
+
+            skill_level: document.getElementById("editSkillLevel").value,
+
+            experience: document.getElementById("editExperience").value.trim(),
+
+            availability: document.getElementById("editAvailability").value.trim(),
+
+            description: document.getElementById("editDescription").value.trim()
+
+        };
+
+        try {
+
+            const response = await fetch("/api/update-skill", {
+
+                method: "PUT",
+
+                headers: {
+                    "Content-Type": "application/json",
+                    "Accept": "application/json"
+                },
+
+                body: JSON.stringify(skill)
+
+            });
+
+            const data = await readApiResponse(response);
+
+            alert(data.message || "Skill updated successfully!");
+
+            closeEditModal();
+
+            loadMySkills();
+
+        } catch (error) {
+
+            console.error("Update skill error:", error);
+            alert(error.message);
+
+        }
+
+    }
+);
+
+
+/* --------------------------------
+   DELETE SKILL
+-------------------------------- */
+
+async function deleteSkill(skillId) {
+
+    if (!confirm("Are you sure you want to delete this skill?")) {
+        return;
+    }
+
+    try {
+
+        const apiUrl =
+            "/api/delete-skill?skillId=" +
+            encodeURIComponent(skillId) +
+            "&userId=" +
+            encodeURIComponent(userId);
+
+        const response = await fetch(apiUrl, {
+
+            method: "DELETE",
+
+            headers: {
+                "Accept": "application/json"
+            }
+
+        });
+
+        const data = await readApiResponse(response);
+
+        alert(data.message || "Skill deleted successfully!");
+
+        loadMySkills();
+
+    } catch (error) {
+
+        console.error("Delete skill error:", error);
+        alert(error.message);
+
+    }
+
+}
+
+</script>
+
+</body>
+</html>
